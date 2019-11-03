@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { logout } from '../utils/auth'
+import Link from 'next/link';
+import { logout } from '../utils/auth';
 
 const Header = props => (
   <header>

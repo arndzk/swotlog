@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import Layout from '../components/layout';
 import { login } from '../utils/auth';
+import LoginForm from '../components/LoginForm';
 
 function Login () {
   const [userData, setUserData] = useState({ username: '', error: '' });
@@ -46,30 +47,9 @@ function Login () {
 
   return (
     <Layout>
-      <div className='login'>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor='username'>Your GitHub Username</label>
-
-          <input
-            type='text'
-            id='username'
-            name='username'
-            value={userData.username}
-            onChange={event =>
-              setUserData(
-                Object.assign({}, userData, { username: event.target.value })
-              )
-            }
-          />
-
-          <button type='submit'>Login</button>
-
-          {userData.error && <p className='error'>Error: {userData.error}</p>}
-        </form>
-      </div>
-
+    <LoginForm></LoginForm>
     </Layout>
   )
 }
 
-export default Login
+export default Login;
