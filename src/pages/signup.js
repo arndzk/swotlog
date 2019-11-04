@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/layout';
+import SignupForm from '../components/SignupForm';
 
-const Signup = () => (
-  <Layout>
-    <div>
-        <h1>Signup Page</h1>
-    </div>
-  </Layout>
-)
+function Signup () {
+
+  return (
+    <Layout>
+      <SignupForm></SignupForm>
+    </Layout>
+  )
+}
 
 export default Signup;

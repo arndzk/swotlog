@@ -21,7 +21,7 @@ const Layout = props => (
         max-width: 1200px;
       }
       .nav-container {
-        margin: auto;
+        margin-left: auto;
       }
     `}</style>
 

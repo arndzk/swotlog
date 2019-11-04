@@ -33,12 +33,13 @@ const styles = {
     }
 }
 
-class LoginForm extends Component {
+class SignupForm extends Component {
     constructor() {
         super();
         this.state = {
             email: '',
             password: '',
+            confirmPassword: '',
             loading: false,
             errors: {}
         }
@@ -49,9 +50,10 @@ class LoginForm extends Component {
         this.setState({
             loading: true
         });
-        const personData = {
+        const newPersonData = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            confirmPassword: this.state.confirmPassword
         }  
     }
     handleChange = (event) => {
@@ -68,7 +70,7 @@ class LoginForm extends Component {
                 <Grid item sm/>
                 <Grid item sm>
                     <Typography variant = "h4" className = {classes.formTitle}>
-                        Login
+                        Signup
                     </Typography>
                     <form noValidate onSubmit = {this.handleSubmit}>
                         <TextField 
@@ -95,6 +97,18 @@ class LoginForm extends Component {
                             onChange = {this.handleChange}
                             fullWidth
                         />
+                        <TextField 
+                            id = "confirmPassword" 
+                            name = "confirmPassword" 
+                            type = "confirmPassword" 
+                            label = "Confirm Password" 
+                            classname = {classes.TextField}
+                            helperText = {errors.confirmPassword}
+                            error = {errors.confirmPassword ? true : false}
+                            value = {this.state.confirmPassword}
+                            onChange = {this.handleChange}
+                            fullWidth
+                        />
                         {errors.general && (
                             <Typography variant = "body2" className = {classes.customError}>
                                 {errors.general}
@@ -107,13 +121,13 @@ class LoginForm extends Component {
                             className = {classes.button}
                             disabled = {loading}
                         >
-                            Login
+                            Sign Up
                             {loading && (
                                 <CircularProgress size = {30} className = {classes.progress}/>
                             )}
                         </Button>
                         <br />
-                        <small>New user? Sign up <Link href='/signup'><a>here</a></Link>!</small>
+                        <small>Already have an account? Log in <Link href='/login'><a>here</a></Link>!</small>
                     </form>
                 </Grid>
                 <Grid item sm/>
@@ -122,8 +136,8 @@ class LoginForm extends Component {
     }
 }
 
-login.propTypes = {
-    classes: PropTypes.object.isRequired
-}
+//signup.propTypes = {
+//    classes: PropTypes.object.isRequired
+//}
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(SignupForm);
