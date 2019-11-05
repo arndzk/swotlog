@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 // Components
 import Head from 'next/head';
@@ -7,11 +7,11 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
 const Layout = props => (
-  <React.Fragment>
+  <Fragment>
     <Head>
       <title>Swotlog</title>
     </Head>
-    
+
     <style jsx global>{`
       body {
         font-family: 'Roboto', sans-serif;
@@ -31,8 +31,7 @@ const Layout = props => (
         <div className='container'>{props.children}</div>
       </main>
     </ThemeProvider>
-
-  </React.Fragment>
-)
+  </Fragment>
+);
 
 export default Layout;

@@ -1,12 +1,12 @@
 function getHost (req) {
-  if (!req) return ''
+  if (!req) return '';
 
-  const { host } = req.headers
+  const { host } = req.headers;
 
   if (host.startsWith('localhost')) {
-    return `http://${host}`
+    return `http://${host}`;
   }
-  return `https://${host}`
+  return `https://${host}`;
 }
 
-export default getHost
+export default getHost;

@@ -2,6 +2,7 @@
   "name": "swotlog",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^4.5.2",
     "express": "^4.17.1",
