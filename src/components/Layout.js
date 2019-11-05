@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import Head from 'next/head';
 import Navbar from './Navbar';
 import { ThemeProvider } from '@material-ui/core/styles';
-import theme from './theme';
+import Theme from './Theme';
 
 const Layout = props => (
   <Fragment>
@@ -25,7 +25,7 @@ const Layout = props => (
       }
     `}</style>
 
-    <ThemeProvider theme = { theme }>
+    <ThemeProvider theme = { Theme }>
       <Navbar />
       <main>
         <div className='container'>{props.children}</div>

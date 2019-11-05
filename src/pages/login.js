@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import fetch from 'isomorphic-unfetch';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import { login } from '../utils/auth';
 import LoginForm from '../components/LoginForm';
 
