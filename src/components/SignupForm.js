@@ -130,5 +130,4 @@ const SignupForm = props => {
   );
 }
 
-
 export default withStyles(styles)(SignupForm);

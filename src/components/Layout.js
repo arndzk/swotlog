@@ -23,6 +23,9 @@ const Layout = props => (
       .nav-container {
         margin-left: auto;
       }
+      a {
+        text-decoration: none;
+      }
     `}</style>
 
     <ThemeProvider theme = { Theme }>

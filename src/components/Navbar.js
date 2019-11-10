@@ -20,6 +20,7 @@ const Navbar = () => {
         <Button color="inherit" component={ButtonLink} href={'/index'}>Home</Button>
         <Button color="inherit" component={ButtonLink} href={'/login'}>Login</Button>
         <Button color="inherit" component={ButtonLink} href={'/signup'}>Signup</Button>
+        <Button color="inherit" component={ButtonLink} href={'/profile-test'}>Profile</Button>
       </Toolbar>
     </AppBar>
   )
