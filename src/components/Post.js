@@ -5,6 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Link from 'next/link';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
 
 const styles = {
     card: {
@@ -23,6 +25,8 @@ const styles = {
 
 const Post = props => {
 
+    dayjs.extend(relativeTime);
+
     const { classes, post : { id, body, timestamp, likeCount, commentCount, userImage, username }} = props;
 
     return (
@@ -34,7 +38,7 @@ const Post = props => {
                     color = "primary" 
                     component = {Link} href = {`/users/${username}`}
                 >{username}</Typography>
-                <Typography variant = "body2" color = "textSecondary">{timestamp}</Typography>
+                <Typography variant = "body2" color = "textSecondary">{dayjs(timestamp).fromNow()}</Typography>
                 <Typography variant = "body1">{body}</Typography>
             </CardContent>
         </Card>
