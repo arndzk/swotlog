@@ -39,8 +39,6 @@ const SignupForm = props => {
     email: '',
     password: '',
     confirmPassword: '',
-    registration: '',
-    dateOfBirth: '',
     isLoading: false,
     errors: {},
   });
@@ -51,34 +49,28 @@ const SignupForm = props => {
   function handleSubmit (event) {
     event.preventDefault();
 
-    const { firstName, lastName, email, password, registration, dateOfBirth} = state;
+    const { firstName, lastName, email, password} = state;
     const newUser = {
-      firstName,
-      lastName,
+      first_name: firstName,
+      last_name: lastName,
       email,
-      password,
-      registration,
-      dateOfBirth
+      password
     };
-
-    console.log(newUser);
-    fetch("http://localhost:3001/users/create", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    })
-    .then(response => {
-      return response.json()
-    })
-    .catch(err => console.log(err))
 
     setState({
       ...state,
       isLoading: true,
     });
+
+    fetch("http://localhost:3001/users/create", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(newUser)
+    })
+    .then(response => {
+      return response.json()
+    })
+    .catch(err => console.log(err));
   }
 
   function onChange (event) {
