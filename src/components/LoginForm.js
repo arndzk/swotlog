@@ -68,7 +68,7 @@ const LoginForm = props => {
         <Typography variant="h4" className={classes.formTitle}>
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit}>
           <TextField
             id="email"
             name="email"

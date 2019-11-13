@@ -16,7 +16,7 @@ const styles = {
     margin: '20px auto 20px auto',
   },
   textField: {
-    margin: '10px auto 10px auto',
+    margin: '20px auto 20px auto',
   },
   button: {
     marginTop: 20,
@@ -34,9 +34,13 @@ const styles = {
 
 const SignupForm = props => {
   const [state, setState] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
+    registration: '',
+    dateOfBirth: '',
     isLoading: false,
     errors: {},
   });
@@ -46,6 +50,30 @@ const SignupForm = props => {
 
   function handleSubmit (event) {
     event.preventDefault();
+
+    const { firstName, lastName, email, password, registration, dateOfBirth} = state;
+    const newUser = {
+      firstName,
+      lastName,
+      email,
+      password,
+      registration,
+      dateOfBirth
+    };
+
+    console.log(newUser);
+    fetch("http://localhost:3001/users/create", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
+    })
+    .then(response => {
+      return response.json()
+    })
+    .catch(err => console.log(err))
 
     setState({
       ...state,
@@ -68,6 +96,30 @@ const SignupForm = props => {
           Signup
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
+          <TextField
+            name="firstName"
+            type="firstName"
+            label="First Name"
+            required={true}
+            className={classes.TextField}
+            helperText={errors.firstName}
+            error={errors.firstName ? true : false}
+            value={state.firstName}
+            onChange={onChange}
+            fullWidth
+          />
+          <TextField
+            name="lastName"
+            type="lastName"
+            label="Last Name"
+            required={true}
+            className={classes.TextField}
+            helperText={errors.lastName}
+            error={errors.lastName ? true : false}
+            value={state.lastName}
+            onChange={onChange}
+            fullWidth
+          />
           <TextField
             name="email"
             type="email"
@@ -115,6 +167,7 @@ const SignupForm = props => {
             color="primary"
             className={classes.button}
             disabled={isLoading}
+            onClick ={handleSubmit}
           >
             Sign Up
             {isLoading && (

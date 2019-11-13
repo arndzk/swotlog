@@ -31,14 +31,14 @@ const Post = props => {
 
     return (
         <Card className = {classes.card}>
-            <Cardmedia className = {classes.avatar} title = "Profile Avatar" image = {personImage}/>
+            <CardMedia className = {classes.avatar} title = "Profile Avatar" image = {personImage}/>
             <CardContent className = {classes.content}>
                 <Typography 
                     variant = "h5"
                     color = "primary" 
                     component = {Link} href = {`/users/${username}`}
                 >{username}</Typography>
-                <Typography variant = "body2" color = "textSecondary">{dayjs(timestamp).fromNow()}</Typography>
+                <Typography variant = "body2" color = "textSecondary">{dayjs(timestamp)}</Typography>
                 <Typography variant = "body1">{body}</Typography>
             </CardContent>
         </Card>

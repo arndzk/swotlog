@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
+    "cors": "^2.8.5",
     "dayjs": "^1.8.17",
     "express": "^4.17.1",
     "isomorphic-unfetch": "^3.0.0",
