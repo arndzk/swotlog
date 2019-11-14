@@ -58,29 +58,34 @@ const SignupForm = props => {
 
     var registration = date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
 
-    const { firstName, lastName, email, password} = state;
-    const newUser = {
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      password,
-      registration
-    };
+    const { firstName, lastName, email, password, confirmPassword} = state;
+    
+    if (password !== confirmPassword) {
+      alert("Passwords don't match!");
+    } else {
+      const newUser = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        registration
+      };
 
-    setState({
-      ...state,
-      isLoading: true,
-    });
-
-    fetch("http://localhost:3001/users/create", {
+      fetch("http://localhost:3001/users/create", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(newUser)
-    })
-    .then(response => {
-      return response.json()
-    })
-    .catch(err => console.log(err));
+      })
+      .then(response => {
+        return response.json()
+      })
+      .catch(err => console.log(err));
+
+      setState({
+        ...state,
+        isLoading: true,
+      });
+    }
   }
 
   function onChange (event) {
