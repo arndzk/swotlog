@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Router from 'next/router';
 
 const styles = {
   form: {
@@ -45,6 +46,23 @@ const LoginForm = props => {
 
   function handleSubmit (event) {
     event.preventDefault();
+
+    const { email, password} = state;
+
+    const user = {
+      email,
+      password
+    }
+
+    fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(user)
+    })
+    .then(response => {
+      return response.json()
+    })
+    .catch(err => console.log(err));
 
     setState({
       ...state,
