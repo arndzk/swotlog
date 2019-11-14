@@ -41,28 +41,40 @@ const LoginForm = props => {
     email: '',
     password: '',
     isLoading: false,
-    errors: {},
+    error: '',
   });
 
-  function handleSubmit (event) {
+  async function handleSubmit (event) {
     event.preventDefault();
 
-    const { email, password} = state;
+    const { email, password, error} = state;
 
     const user = {
       email,
       password
     }
 
-    fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(user)
-    })
-    .then(response => {
-      return response.json()
-    })
-    .catch(err => console.log(err));
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(user)
+      })
+      if (response.status === 200) {
+        const { token } = await response.json();
+        await login({ token });
+      } else {
+        console.log('Login failed.')
+        let error = new Error(response.statusText)
+        error.response = response
+        throw error
+      }
+    } catch (error) {
+      console.error(
+        'You have an error in your code or there are Network issues.',
+        error
+      )
+    }
 
     setState({
       ...state,
@@ -77,7 +89,7 @@ const LoginForm = props => {
     })
   }
 
-  const { errors, isLoading } = state;
+  const { error, isLoading } = state;
 
   return (
     <Grid container className={classes.form}>
@@ -94,8 +106,8 @@ const LoginForm = props => {
             label="E-mail"
             required
             className={classes.TextField}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={error.email}
+            error={error.email ? true : false}
             value={state.email}
             onChange={onChange}
             fullWidth
@@ -107,15 +119,15 @@ const LoginForm = props => {
             label="Password"
             required
             className={classes.TextField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={error.password}
+            error={error.password ? true : false}
             value={state.password}
             onChange={onChange}
             fullWidth
           />
-          {errors.general && (
+          {error.general && (
             <Typography variant="body2" className={classes.customError}>
-              {errors.general}
+              {error.general}
             </Typography>
           )}
           <Button
