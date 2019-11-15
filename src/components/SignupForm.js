@@ -112,7 +112,7 @@ const SignupForm = props => {
         <Typography variant="h4" className={classes.formTitle}>
           Signup
         </Typography>
-        <form noValidate onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <TextField
             name="firstName"
             type="firstName"
@@ -174,24 +174,22 @@ const SignupForm = props => {
             fullWidth
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            name="birthDate"
-            //type="date"
-            label="Birthday"
-            required={true}
-            format="dd/MM/yyyy"
-            className={classes.keyboardDatePicker}
-            helperText={errors.confirmPassword}
-            error={errors.password ? true : false}
-            value={state.selectedDate}
-            onChange={onChange}
-            fullWidth
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
+            <KeyboardDatePicker
+              disableToolbar
+              name="selectedDate"
+              label="Birthday"
+              required={true}
+              format="dd/MM/yyyy"
+              className={classes.keyboardDatePicker}
+              helperText={errors.keyboardDatePicker}
+              error={errors.password ? true : false}
+              value={state.selectedDate}
+              onChange={onChange}
+              fullWidth
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+           />
           </MuiPickersUtilsProvider>
           {errors.general && (
             <Typography variant="body2" className={classes.customError}>
