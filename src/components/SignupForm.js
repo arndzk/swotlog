@@ -7,6 +7,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 const styles = {
   form: {
@@ -16,10 +19,15 @@ const styles = {
     margin: '20px auto 20px auto',
   },
   textField: {
+    margin: '10px auto 10px auto',
+  },
+  keyboardDatePicker: {
     margin: '20px auto 20px auto',
+    position: 'relative'
   },
   button: {
     marginTop: 20,
+    marginBottom: 20,
     position: 'relative'
   },
   customError: {
@@ -39,6 +47,7 @@ const SignupForm = props => {
     email: '',
     password: '',
     confirmPassword: '',
+    selectedDate: new Date(),
     isLoading: false,
     errors: {},
   });
@@ -58,7 +67,7 @@ const SignupForm = props => {
 
     var registration = date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
 
-    const { firstName, lastName, email, password, confirmPassword} = state;
+    const { firstName, lastName, email, password, confirmPassword, selectedDate} = state;
     
     if (password !== confirmPassword) {
       alert("Passwords don't match!");
@@ -68,6 +77,7 @@ const SignupForm = props => {
         last_name: lastName,
         email,
         password,
+        date_of_birth: selectedDate,
         registration
       };
 
@@ -108,7 +118,7 @@ const SignupForm = props => {
             type="firstName"
             label="First Name"
             required={true}
-            className={classes.TextField}
+            className={classes.textField}
             helperText={errors.firstName}
             error={errors.firstName ? true : false}
             value={state.firstName}
@@ -120,7 +130,7 @@ const SignupForm = props => {
             type="lastName"
             label="Last Name"
             required={true}
-            className={classes.TextField}
+            className={classes.textField}
             helperText={errors.lastName}
             error={errors.lastName ? true : false}
             value={state.lastName}
@@ -132,7 +142,7 @@ const SignupForm = props => {
             type="email"
             label="E-mail"
             required={true}
-            className={classes.TextField}
+            className={classes.textField}
             helperText={errors.email}
             error={errors.email ? true : false}
             value={state.email}
@@ -144,7 +154,7 @@ const SignupForm = props => {
             type="password"
             label="Password"
             required={true}
-            className={classes.TextField}
+            className={classes.textField}
             helperText={errors.password}
             error={errors.password ? true : false}
             value={state.password}
@@ -156,13 +166,33 @@ const SignupForm = props => {
             type="password"
             label="Confirm Password"
             required={true}
-            className={classes.TextField}
+            className={classes.textField}
             helperText={errors.confirmPassword}
             error={errors.confirmPassword ? true : false}
             value={state.confirmPassword}
             onChange={onChange}
             fullWidth
           />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            name="birthDate"
+            //type="date"
+            label="Birthday"
+            required={true}
+            format="dd/MM/yyyy"
+            className={classes.keyboardDatePicker}
+            helperText={errors.confirmPassword}
+            error={errors.password ? true : false}
+            value={state.selectedDate}
+            onChange={onChange}
+            fullWidth
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+          </MuiPickersUtilsProvider>
           {errors.general && (
             <Typography variant="body2" className={classes.customError}>
               {errors.general}

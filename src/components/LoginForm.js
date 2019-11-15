@@ -22,6 +22,7 @@ const styles = {
   },
   button: {
     marginTop: 20,
+    marginBottom: 20,
     position: 'relative'
   },
   customError: {
@@ -105,7 +106,7 @@ const LoginForm = props => {
             type="email"
             label="E-mail"
             required
-            className={classes.TextField}
+            className={classes.textField}
             helperText={error.email}
             error={error.email ? true : false}
             value={state.email}
@@ -118,7 +119,7 @@ const LoginForm = props => {
             type="password"
             label="Password"
             required
-            className={classes.TextField}
+            className={classes.textField}
             helperText={error.password}
             error={error.password ? true : false}
             value={state.password}
