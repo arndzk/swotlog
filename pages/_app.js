@@ -6,20 +6,25 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import { PAGE_TITLES } from "constants/misc";
+import { cookieOnRequest, cookieOnDocument } from 'utils/helpers/auth';
+import { redirectIfNecessary } from 'utils/helpers/pathManager';
 
 import theme from "../utils/theme";
+
 export default class App extends NextApp {
-  // Only uncomment this method if you have blocking data requirements for
-  // every single page in your application. This disables the ability to
-  // perform automatic static optimization, causing every page in your app to
-  // be server-side rendered.
-  //
-  // static async getInitialProps(appContext) {
-  //   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  //   const appProps = await App.getInitialProps(appContext);
-  //
-  //   return { ...appProps }
-  // }
+  static async getInitialProps(appContext) {
+    const appProps = await NextApp.getInitialProps(appContext);
+    const isServer = !!appContext.ctx.req; // TODO: verify later
+    const authCookiePresented = isServer ? cookieOnRequest(appContext.ctx) : cookieOnDocument();
+    
+    redirectIfNecessary(authCookiePresented, appContext.ctx);
+
+    return { 
+      ...appProps,
+      authCookiePresented,
+     }
+  }
+
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -32,6 +37,7 @@ export default class App extends NextApp {
     const {
       Component,
       pageProps,
+      authCookiePresented,
       router: { asPath }
     } = this.props;
     const [, main, sub] = asPath.split("/");
@@ -49,7 +55,7 @@ export default class App extends NextApp {
             component="main"
             {...(["signin", "signup"].includes(main) && { maxWidth: "xs" })}
           >
-            <Component {...pageProps} />
+            <Component {...pageProps } authCookiePresented={authCookiePresented} />
           </Container>
           <Footer />
         </ThemeProvider>
