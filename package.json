@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/pickers": "^3.2.8",
     "babel-plugin-styled-components": "^1.10.6",
+    "clsx": "^1.0.4",
     "cors": "^2.8.5",
     "date-fns": "^2.7.0",
     "dayjs": "^1.8.17",
