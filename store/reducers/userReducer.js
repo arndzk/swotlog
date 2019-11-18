@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
     case AUTH_RESPONSE:
       return state = {
         ...state,
-        user,
+        ...user,
       };
 
     case LOGOUT:

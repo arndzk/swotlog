@@ -5,7 +5,8 @@ export const requestAuthentication = ({ email, password }) => {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',
-		},
+    },
+    credentials: "include",
 		body: JSON.stringify({
       email,
       password
@@ -13,7 +14,10 @@ export const requestAuthentication = ({ email, password }) => {
   }).then(response => {
     if (response.status === 401)
       throw "Authentication error"
+    
+    if (response.status === 404 || response.status === 500)
+      throw "Service temporarily unvailable";
       
-    return r.json()
+    return response.json();
   })
 };

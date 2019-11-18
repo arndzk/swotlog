@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import Preloader from "components/Preloader";
+import Toast from "components/Toast";
 
 import { PAGE_TITLES } from "constants/misc";
 import { cookieOnRequest, cookieOnDocument } from 'utils/helpers/auth';
@@ -76,6 +77,7 @@ class App extends NextApp {
               <Component {...pageProps } authCookiePresented={authCookiePresented} />
             </Container>
             <Footer />
+            <Toast />
           </ThemeProvider>
         </Provider>
       </>

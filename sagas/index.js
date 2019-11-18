@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as api from '../api';
 import {
-  ERROR,
+  ERROR_MESSAGE,
   AUTH_REQUEST,
   AUTH_RESPONSE,
 } from 'actions';
@@ -19,13 +19,14 @@ function* requestAuthentication(action) {
 		if (user.id) {
 			yield put({
 				type: AUTH_RESPONSE,
-			  user
+        user,
+        message: `Welcome ${user.firstName}!`
 			});
 		} else {
 			throw "Something went wrong";
 		}
 	} catch (error) {
-		yield put({ type: ERROR, error: error });
+		yield put({ type: ERROR_MESSAGE, message: error });
 	}
 }
 
