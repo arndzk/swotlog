@@ -7,5 +7,20 @@ export default makeStyles(theme => ({
   },
   wrapper: {
     marginTop: theme.spacing(4),
+    flexDirection: 'column',
+  },
+  details: {
+    marginTop: theme.spacing(1),
+  },
+  chipAway: {
+    backgroundColor: '#fff'
+  },
+  tabSelect: {
+    marginTop: theme.spacing(4),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 1px 0px rgba(0,0,0,0.12)'
   }
 }));
