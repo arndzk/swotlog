@@ -8,13 +8,13 @@ export const loadingReducer = (state = false, action) => {
 	switch (type) {
 		case ERROR_MESSAGE:
 		case AUTH_RESPONSE:
-			return state = false;
+			return false;
 			
 		case LOADING:
-			return state = loading;
+			return loading;
 			
     case AUTH_REQUEST:
-			return state = true;
+			return true;
 			
 		default:
 			return state;
@@ -31,7 +31,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 
 	switch (type) {
 		case ERROR_MESSAGE:
-			return state = {
+			return {
 				...state,
 				message,
 				type: 'error'
@@ -39,7 +39,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 
 		case AUTH_RESPONSE:
 		case SUCCESS_MESSAGE:
-			return state = {
+			return {
 				...state,
 				message,
 				type: 'success'
