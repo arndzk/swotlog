@@ -1,11 +1,12 @@
 import HomeGuest from 'views/HomeGuest';
+import Feed from 'views/Feed';
 
 const Home = ({ authCookiePresented }) => {
   
   return <>
     {
       authCookiePresented 
-        ? <h1>welcome</h1>
+        ? <Feed />
         : <HomeGuest />
     }
   </>
