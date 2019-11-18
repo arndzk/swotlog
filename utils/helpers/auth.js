@@ -1,3 +1,5 @@
+import { AUTH_COOKIE_NAME } from 'constants/misc';
+
 /**
  * We shall check if request/document includes connect.sid cookie
  * 
@@ -7,6 +9,6 @@
  * 
  * - If no, redirect to e.g /login
  */
-export const cookieOnRequest = ctx => !!(ctx && ctx.req && ctx.req.headers && ctx.req.headers.cookie && ctx.req.headers.cookie.includes('connect.sid='));
+export const cookieOnRequest = ctx => !!(ctx && ctx.req && ctx.req.headers && ctx.req.headers.cookie && ctx.req.headers.cookie.includes(AUTH_COOKIE_NAME));
 
-export const cookieOnDocument = () => document && document.cookie && document.cookie.includes('connect.sid=');
+export const cookieOnDocument = () => document && document.cookie && document.cookie.includes(AUTH_COOKIE_NAME);

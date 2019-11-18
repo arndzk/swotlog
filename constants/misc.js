@@ -8,3 +8,5 @@ export const GUEST_ZONES = ['/signin', '/signup'];
 
 // routes only auth user should access
 export const USER_ZONES = ['/profile'];
+
+export const AUTH_COOKIE_NAME = 'connect.sid';
