@@ -1,0 +1,18 @@
+Restriction:
+  ☐ Password validate
+
+Home:
+  ☐ Show a list of subscribed classes/groups
+
+  ☐ Posts from subscribed classes
+  ☐ Posts from connected groups
+
+Profile:
+  ☐ General
+  ☐ Subscriptions
+  ☐ Courses Success
+  ☐ Followers
+
+Classes/Groups View:
+  ☐ Feed
+  ☐ Post Input
