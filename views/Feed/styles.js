@@ -7,6 +7,11 @@ export default makeStyles(theme => ({
   card: {
     minWidth: 275,
   },
+  panelSummary: {
+    "& > div:first-child": {
+      display: 'block',
+    }
+  },
   domain: {
     fontSize: 14,
   },
@@ -25,5 +30,10 @@ export default makeStyles(theme => ({
   },
   content: {
     marginTop: theme.spacing(2)
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '100%',
   }
 }));
