@@ -21,6 +21,7 @@ const Feed = () => {
   const commentEl = React.useRef(null);
   const domain = 'class'; // api will return either class or group
   const [expanded, setExpanded] = React.useState(false);
+  const [comment, setComment] = React.useState('');
 
   const handleCommentClick = () => {
     if (!expanded) {
@@ -65,9 +66,12 @@ const Feed = () => {
             label="Comment"
             placeholder="Have anything to say?"
             className={classes.textField}
+            value={comment}
             margin="normal"
             variant="outlined"
-          />
+            onChange={({target: { value }}) => setComment(value)}
+            onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), setComment(''))}
+            />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </Card>
