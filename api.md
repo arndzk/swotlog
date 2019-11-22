@@ -1,30 +1,59 @@
-### User profile edit
-- [ ] First name & Last name should be editable
+Description | Expect | Return | Notes
+-|-|-|-
+Update user data | [object](#update-user-data) | true/false | -
+Return user details | userId | [object](#return-user-details) |  Return **all classes** on both arrays along with a flag true/false 
+Posts | - | [array](#posts) | -
 
-### User class subscription
-  - [ ] Return all classes with a state true or false (is subscribed or not)
-  - [ ] Ability to change state by providing class ID & the new value
+<h3 id="update-user-data">Update user data</h3>
 
-### User's passed classes
-  - [ ] Return all classes with a state true or false (passed or not)
-  - [ ] Ability to change state by providing class ID & the new value
+```javascript
+{
+  firstName: string, 
+  lastName: string, 
+  subscribed: number[] // (ids of subscribed classes), 
+  passed: number[] // (ids of passed classes) 
+} 
+```
 
-### Feed List
-  - [ ] All posts
-   - ID (will be used for update/delete purposes)
-   - Post owner (first & last name)
-   - Timestamp
-   - Title
-   - Class or Group post
-   - Like number
-   - Comment number
-   - Liked by current user (bool)
-   - All comments (each comment should have **ID**, **content**, **first name**, **last name** and maybe a ¿timestamp?)
-   - A variable indicating if a comment belongs to the current user (bool) 
-   - A variable indicating if a post belongs to the current user 
+<h3 id="return-user-details">Return user details</h3>
 
-### Post creation
- - [ ] Content
-### Comment creation
- - [ ] Change comment content
+```javascript 
+{ 
+ subscribed: [{ 
+  className: string, 
+  classId: number, 
+  status: boolean 
+ }, ...], 
+ passed: [ { 
+  className: string, 
+  classId: number, 
+  status: boolean 
+ }, ...]
+}
+```
 
+<h3 id="posts">Posts</h3>
+
+
+```javascript
+[  
+ {
+  id: number, 
+  owner: string, // (fullName of post owner), 
+  timestamp,
+  content: string,
+  type: string, // class or group post,
+  relatedTo: string, // class or group name,
+  likes: number, // total number of likes,
+  likedByCurrentUser: boolean,
+  comments: [{
+   id: number,
+   owner: string,
+   timestamp,
+   content: string,
+   ownedByCurrentUser: boolean,
+   likes: number
+  }, ...]
+ }
+]
+```
