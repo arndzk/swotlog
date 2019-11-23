@@ -1,5 +1,7 @@
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_RESPONSE = 'AUTH_RESPONSE';
+export const FETCH_USER_DETAILS = 'FETCH_USER_DETAILS';
+export const USER_DETAILS = 'USER_DETAILS';
 export const LOGOUT = 'LOGOUT';
 
 export const POSTS_FETCHED = 'POSTS_FETCHED';

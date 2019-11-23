@@ -1,46 +1,28 @@
 import { connect } from 'react-redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import FaceIcon from '@material-ui/icons/Face';
 import EmailIcon from '@material-ui/icons/Email';
+import CheckList from 'components/CheckList';
+import TabPanel from 'components/TabPanel';
+
+import { fetchUserDetails } from 'actions/user';
 
 import useStyles from './styles';
 
-const TabPanel = (props) => {
-  const { children, value, index, boxClassName, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`wrapped-tabpanel-${index}`}
-      aria-labelledby={`wrapped-tab-${index}`}
-      {...other}
-    >
-      <Box className={boxClassName} p={3}>{children}</Box>
-    </Typography>
-  );
-}
-
-const Profile = ({ user: { firstName, lastName, email } }) => {
+const Profile = ({ user: { firstName, lastName, email, subs, passed } }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState('one');
+  const [value, setValue] = React.useState('one'); // tab selection
   const [userData, setUserData] = React.useState({
     firstName,
     lastName,
-    email
   })
-
-  const handleTabChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  
   return (
     <Grid 
       className={classes.wrapper} 
@@ -62,40 +44,60 @@ const Profile = ({ user: { firstName, lastName, email } }) => {
         </Grid>
       </Grid>
       <div className={classes.tabSelect}>
-        <Tabs value={value} onChange={handleTabChange}>
+        <Tabs value={value} onChange={(ev, value) => setValue(value)}>
           <Tab value="one" label="General" />
           <Tab value="two" label="Subscribed to" />
           <Tab value="three" label="Passed" />
         </Tabs>
       </div>
+
+      {/* General */}
       <TabPanel boxClassName={classes.verticalPanel} value={value} index="one">
         <TextField
           id="firstName"
           label="First Name"
-          defaultValue={firstName}
+          defaultValue={userData.firstName}
           className={classes.textField}
           margin="normal"
+          onChange={ev => setUserData({ ...userData, [event.target.id]: ev.target.value})}
         />
         <TextField
           id="lastName"
           label="Last Name"
-          defaultValue={lastName}
+          defaultValue={userData.lastName}
           className={classes.textField}
           margin="normal"
-          onChange={() => console.log(this)}
+          onChange={ev => setUserData({ ...userData, [event.target.id]: ev.target.value})}
         />
+        <Button 
+          className={classes.btn}
+          variant="contained" 
+          color="secondary">
+          Update Info
+        </Button>
       </TabPanel>
+      
+      {/* Subscribed */}
       <TabPanel value={value} index="two">
-        Item Two
+        <CheckList list={subs} />
       </TabPanel>
+      
+      {/* Passed */}
       <TabPanel value={value} index="three">
-        Item Two
+        <CheckList list={passed} />
       </TabPanel>
     </Grid>
   );
 };
 
-export default connect(state => ({ user: state.user }))(Profile);
+Profile.getInitialProps = async ({ store }) => {
+  if (!store.getState().user.passed.length || !store.getState().user.subs.length)
+    store.dispatch(fetchUserDetails())
+  
+  return {}; // hm
+}
+
+export default connect(state => ({ user: state.user }), { fetchUserDetails })(Profile);
 
 
 

@@ -1,4 +1,4 @@
-import { AUTH_RESPONSE, LOGOUT } from '../actions';
+import { AUTH_RESPONSE, LOGOUT, USER_DETAILS } from '../actions';
 import { AUTH_COOKIE_NAME } from 'constants/misc';
 
 // const initialState = {
@@ -6,7 +6,9 @@ import { AUTH_COOKIE_NAME } from 'constants/misc';
 //   email: '',
 //   firstName: '',
 //   lastName: '',
-//   dateOfBirth: null
+//   dateOfBirth: null,
+//   subs: [],
+//   passed: []
 // };
 
 const initialState = { //dummy
@@ -14,11 +16,13 @@ const initialState = { //dummy
   "email": "takis@takis.gg",
   "firstName": "Takis",
   "lastName": "Takis",
-  "dateOfBirth": null
+  "dateOfBirth": null,
+  "subs": [],
+  "passed": []
 };
 
 export default (state = initialState, action) => {
-  const { user, type } = action;
+  const { user, userDetails, type } = action;
 
   switch(type) {
     case AUTH_RESPONSE:
@@ -26,6 +30,11 @@ export default (state = initialState, action) => {
         ...user,
       };
 
+    case USER_DETAILS: 
+      return {
+        ...state,
+        ...userDetails,
+      }
     case LOGOUT:
       document.cookie = `${AUTH_COOKIE_NAME}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 
 
