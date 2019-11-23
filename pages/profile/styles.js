@@ -31,5 +31,8 @@ export default makeStyles(theme => ({
   verticalPanel: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  btn: {
+    marginTop: theme.spacing(2)
   }
 }));
