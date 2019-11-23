@@ -20,7 +20,7 @@ export default () => {
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <form className={classes.form} noValidate>
+      <form className={classes.form}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -54,6 +54,7 @@ export default () => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              type="email"
             />
           </Grid>
           <Grid item xs={12}>
