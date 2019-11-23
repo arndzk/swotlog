@@ -4,7 +4,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
+import useStyles from './styles';
+
 export default ({ list, callback }) => {
+  const classes = useStyles();
   const [checked, setChecked] = React.useState(list.map((s, i) => s.status && i).filter(s => s !== false));
 
   const handleToggle = value => () => { // this is working with indexes
@@ -20,9 +23,9 @@ export default ({ list, callback }) => {
     setChecked(newChecked);
   };
 
-  return <List>
+  return <List className={classes.list} style={{ maxHeight: 500 }}>
     {list.map(({ className, classId }, index) => 
-      <ListItem key={classId} role={undefined} dense button onClick={handleToggle(index)}>
+      <ListItem className={classes.listItem} key={classId} role={undefined} dense button onClick={handleToggle(index)}>
         <ListItemIcon>
           <Checkbox
             edge="start"

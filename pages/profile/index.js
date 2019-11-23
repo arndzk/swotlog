@@ -78,12 +78,12 @@ const Profile = ({ user: { firstName, lastName, email, subs, passed } }) => {
       </TabPanel>
       
       {/* Subscribed */}
-      <TabPanel value={value} index="two">
+      <TabPanel value={value} index="two" style={{ width: '100% '}}>
         <CheckList list={subs} />
       </TabPanel>
       
       {/* Passed */}
-      <TabPanel value={value} index="three">
+      <TabPanel value={value} index="three" style={{ width: '100% '}}>
         <CheckList list={passed} />
       </TabPanel>
     </Grid>
