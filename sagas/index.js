@@ -5,8 +5,29 @@ import {
   AUTH_REQUEST,
 	AUTH_RESPONSE,
 	FETCH_USER_DETAILS,
-	USER_DETAILS
+	USER_DETAILS,
+	UPDATE_USER_DETAILS,
+	USER_DETAILS_UPDATED
 } from 'actions';
+
+function* updateUserData({ data }) { // TODO: those data have a meaning only to backend. I should try normalize them for me
+	const { user: { id } } = yield select(); // use id for fetch
+	// const done = yield call(
+	// 	api.updateUserInfo, {
+	// 	id,
+	// 	data
+	// });
+
+	try {
+		if (done) { 
+			yield put({ type: USER_DETAILS_UPDATED });
+		} else {
+			throw "Something went wrong";
+		}
+	} catch (error) {
+		yield put({ type: ERROR_MESSAGE, message: error });
+	}
+}
 
 function* fetchUserDetails() {
 	const { user: { id } } = yield select(); // use id for fetch
@@ -112,6 +133,7 @@ function* requestAuthentication(action) {
 function* rootSaga() {
 	yield takeEvery(AUTH_REQUEST, requestAuthentication);
 	yield takeEvery(FETCH_USER_DETAILS, fetchUserDetails);
+	yield takeEvery(UPDATE_USER_DETAILS, updateUserData);
 }
 
 export default rootSaga;

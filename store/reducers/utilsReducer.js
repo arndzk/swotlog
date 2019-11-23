@@ -1,12 +1,14 @@
 import { ERROR_MESSAGE, 
 	SUCCESS_MESSAGE, CLEAR_MESSAGE, 
-	LOADING, AUTH_RESPONSE, AUTH_REQUEST } from '../actions';
+	LOADING, AUTH_RESPONSE, AUTH_REQUEST, 
+	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED } from '../actions';
 
 export const loadingReducer = (state = false, action) => {
 	const { loading, type } = action;
 
 	switch (type) {
 		case ERROR_MESSAGE:
+		case USER_DETAILS_UPDATED:
 		case AUTH_RESPONSE:
 			return false;
 			
@@ -14,6 +16,7 @@ export const loadingReducer = (state = false, action) => {
 			return loading;
 			
     case AUTH_REQUEST:
+		case UPDATE_USER_DETAILS:
 			return true;
 			
 		default:

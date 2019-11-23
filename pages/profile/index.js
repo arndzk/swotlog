@@ -11,7 +11,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import CheckList from 'components/CheckList';
 import TabPanel from 'components/TabPanel';
 
-import { fetchUserDetails } from 'actions/user';
+import { fetchUserDetails, updateUserData } from 'actions/user';
 
 import useStyles from './styles';
 
@@ -97,7 +97,7 @@ Profile.getInitialProps = async ({ store }) => {
   return {}; // hm
 }
 
-export default connect(state => ({ user: state.user }), { fetchUserDetails })(Profile);
+export default connect(state => ({ user: state.user }), { fetchUserDetails, updateUserData })(Profile);
 
 
 

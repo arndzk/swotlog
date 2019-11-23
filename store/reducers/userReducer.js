@@ -1,4 +1,4 @@
-import { AUTH_RESPONSE, LOGOUT, USER_DETAILS } from '../actions';
+import { AUTH_RESPONSE, LOGOUT, USER_DETAILS, USER_DETAILS_UPDATED } from '../actions';
 import { AUTH_COOKIE_NAME } from 'constants/misc';
 
 // const initialState = {
@@ -34,6 +34,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...userDetails,
+      }
+
+    case USER_DETAILS_UPDATED: 
+      console.log('UPDATED DATA HEREEE!!!11!1ena!');
+    
+      return {
+        ...state,
       }
     case LOGOUT:
       document.cookie = `${AUTH_COOKIE_NAME}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 

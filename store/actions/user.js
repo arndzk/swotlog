@@ -1,4 +1,6 @@
-import  { AUTH_REQUEST, AUTH_RESPONSE, LOGOUT, FETCH_USER_DETAILS } from '.';
+import  { AUTH_REQUEST, AUTH_RESPONSE, 
+  LOGOUT, FETCH_USER_DETAILS, 
+  UPDATE_USER_DETAILS } from '.';
 
 export const requestAuthentication = (email, password) => ({
   type: AUTH_REQUEST,
@@ -13,6 +15,11 @@ export const authenticationResponse = user => ({
 
 export const fetchUserDetails = () => ({
   type: FETCH_USER_DETAILS,
+});
+
+export const updateUserData = data => ({
+  type: UPDATE_USER_DETAILS,
+  data
 });
 
 export const logout = () => ({
