@@ -35,4 +35,25 @@ export const fetchUserInfo = ({ token, uid }) =>
       throw "Service temporarily unvailable";
       
     return response.json();
+  });
+
+export const doFetch = ({ token, route }) =>
+  (typeof window !== 'undefined' ? window.fetch : require('node-fetch'))('http://localhost:3000/api', {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify({ route }),
+    headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+      ...(typeof window === 'undefined' && {
+        cookie: `token=${token};`
+      })
+    },
+  }).then(response => {
+    if (response.status === 401)
+      throw "Authentication error"
+  
+    if (response.status === 404 || response.status === 500)
+      throw "Service temporarily unvailable";
+      
+    return response.json();
   })

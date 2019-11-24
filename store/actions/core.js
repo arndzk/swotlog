@@ -1,0 +1,1 @@
+export const doFetch = (type, token, route) => ({ type, token, route });

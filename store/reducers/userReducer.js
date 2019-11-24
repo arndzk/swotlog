@@ -1,18 +1,19 @@
-import { AUTH_RESPONSE, LOGOUT, 
-  USER_DETAILS, USER_DETAILS_UPDATED,
+import { AUTH_RESPONSE, LOGOUT,
+  USER_DETAILS_UPDATED,
   USER_INFO_FETCHED } from '../actions';
-import { AUTH_COOKIE_NAME } from 'constants/misc';
+import { USER_COOKIE } from 'constants/misc';
 
-export default (state = {
+const initialState = {
   id: null,
   email: '',
   firstName: '',
   lastName: '',
   dateOfBirth: null,
-  subs: [],
-  passed: []
-}, action) => {
-  const { user, userDetails, type } = action;
+  classes: {}
+};
+
+export default (state = initialState, action) => {
+  const { user, type } = action;
 
   switch(type) {
     case AUTH_RESPONSE:
@@ -22,12 +23,6 @@ export default (state = {
         ...user,
       };
 
-    case USER_DETAILS: 
-      return {
-        ...state,
-        ...userDetails,
-      }
-
     case USER_DETAILS_UPDATED: 
       console.log('UPDATED DATA HEREEE!!!11!1ena!');
     
@@ -35,7 +30,7 @@ export default (state = {
         ...state,
       }
     case LOGOUT:
-      document.cookie = `${AUTH_COOKIE_NAME}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 
+      document.cookie = `${USER_COOKIE}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 
 
       return {
         ...initialState,

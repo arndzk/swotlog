@@ -6,9 +6,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 import useStyles from './styles';
 
-export default ({ list, callback }) => {
+export default ({ list, toCheck, callback }) => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState(list.map((s, i) => s.status && i).filter(s => s !== false));
+  const [checked, setChecked] = React.useState(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)));
+  
+  React.useEffect(()=> {
+    setChecked(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)))
+  }, [list]);
 
   const handleToggle = value => () => { // this is working with indexes
     const currentIndex = checked.indexOf(value);
@@ -23,19 +27,22 @@ export default ({ list, callback }) => {
     setChecked(newChecked);
   };
 
-  return <List className={classes.list} style={{ maxHeight: 500 }}>
-    {list.map(({ className, classId }, index) => 
-      <ListItem className={classes.listItem} key={classId} role={undefined} dense button onClick={handleToggle(index)}>
+  return <List className={classes.list}>
+    {list.map(({ name, id }, index) => 
+      <ListItem 
+        className={classes.listItem} 
+        key={id} role={undefined} 
+        dense button onClick={handleToggle(index)}>
         <ListItemIcon>
           <Checkbox
             edge="start"
             checked={checked.indexOf(index) !== -1}
             tabIndex={-1}
             disableRipple
-            inputProps={{ 'aria-labelledby': classId }}
+            inputProps={{ 'aria-labelledby': id }}
           />
         </ListItemIcon>
-        <ListItemText id={classId} primary={className} />
+        <ListItemText id={id} primary={name} />
       </ListItem>)
     }
   </List>

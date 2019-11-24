@@ -70,20 +70,22 @@ class App extends NextApp {
   }
 }
 
-App.getInitialProps = async ({ ctx }) => {
-  const { store, isServer } = ctx;
-  const { uid, token } = parseCookies(ctx);
+App.getInitialProps = async (appContext) => {
+  const { store, isServer } = appContext.ctx;
+  const { uid, token } = parseCookies(appContext.ctx);
+  const pageProps = await NextApp.getInitialProps(appContext);
+
+  if (!store.getState().user.id 
+    && uid && token)
+      await store.dispatch(fetchUserInfo({ uid, token }));  
+
+  if (!uid)  await destroyCookie(appContext.ctx, 'token')
   
-  if (!store.getState().user.id) {
-    if (uid && token)
-      store.dispatch(fetchUserInfo({ uid, token }));
-  }  
+  redirectIfNecessary(token && uid || !isServer && uid, appContext.ctx);
 
-  if (!uid) {
-    await destroyCookie(ctx, 'token')
+  return {
+    ...pageProps
   }
-
-  redirectIfNecessary(token && uid || !isServer && uid, ctx);
 }
 
 export default withRedux(configureStore)(

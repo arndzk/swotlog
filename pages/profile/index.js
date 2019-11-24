@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { parseCookies } from 'nookies'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
@@ -11,11 +12,13 @@ import EmailIcon from '@material-ui/icons/Email';
 import CheckList from 'components/CheckList';
 import TabPanel from 'components/TabPanel';
 
-import { fetchUserDetails, updateUserData } from 'actions/user';
+import { updateUserData } from 'actions/user';
+import { FETCH_CLASSES } from 'actions';
+import { doFetch } from 'actions/core';
 
 import useStyles from './styles';
 
-const Profile = ({ user: { firstName, lastName, email, subs, passed } }) => {
+const Profile = ({ user: { firstName, lastName, email, classes: { passed, subscribed } }, classes: subjects }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState('one'); // tab selection
   const [userData, setUserData] = React.useState({
@@ -79,25 +82,33 @@ const Profile = ({ user: { firstName, lastName, email, subs, passed } }) => {
       
       {/* Subscribed */}
       <TabPanel value={value} index="two" style={{ width: '100% '}}>
-        <CheckList list={subs} />
+        <CheckList list={subjects} toCheck={subscribed} />
       </TabPanel>
       
       {/* Passed */}
       <TabPanel value={value} index="three" style={{ width: '100% '}}>
-        <CheckList list={passed} />
+        <CheckList list={subjects} toCheck={passed} />
       </TabPanel>
     </Grid>
   );
 };
 
-Profile.getInitialProps = async ({ store }) => {
-  if (!store.getState().user.passed.length || !store.getState().user.subs.length)
-    store.dispatch(fetchUserDetails())
+Profile.getInitialProps = async ctx => {
+  const { token } = parseCookies(ctx); 
+
+  if (!ctx.store.getState().classes.length)
+    ctx.store.dispatch(doFetch(FETCH_CLASSES, token, '/classes'));
   
-  return {}; // hm
+  return {}; // hmmmm..
 }
 
-export default connect(state => ({ user: state.user }), { fetchUserDetails, updateUserData })(Profile);
+export default connect(
+  state => ({ 
+    user: state.user,
+    classes: state.classes
+   }), 
+  { updateUserData }
+)(Profile);
 
 
 

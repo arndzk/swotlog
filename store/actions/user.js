@@ -1,5 +1,5 @@
 import  { AUTH_REQUEST, AUTH_RESPONSE, 
-  LOGOUT, FETCH_USER_DETAILS, 
+  LOGOUT, 
   FETCH_USER_INFO,
   UPDATE_USER_DETAILS } from '.';
 
@@ -17,10 +17,6 @@ export const authenticationResponse = user => ({
 export const fetchUserInfo = cookies => ({
   type: FETCH_USER_INFO,
   cookies
-});
-
-export const fetchUserDetails = () => ({
-  type: FETCH_USER_DETAILS,
 });
 
 export const updateUserData = data => ({

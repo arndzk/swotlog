@@ -2,10 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
   list: {
-    maxHeight: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
+    display: 'grid',
+    gridTemplateColumns: '50% 50%',
   },
   listItem: {
     width: 'unset'

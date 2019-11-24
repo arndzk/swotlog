@@ -4,7 +4,7 @@ import { serialize } from 'cookie'
 const MAX_AGE = 365 * 24 * 60 * 60 * 1000;
 
 export default async (req, res) => {
-  const request = await fetch(`http://192.168.1.106:3000/login`, {
+  const response = await fetch(`http://192.168.1.106:3000/login`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',
@@ -14,9 +14,10 @@ export default async (req, res) => {
       password: req.body.password
 		}),
   });  
-  const { token, user } = await request.json();
   
-  if (request.status === 200) {
+  const { token, ...user } = await response.json();
+
+  if (response.status === 200) {
     res.setHeader('Set-Cookie', [
       serialize('token', token, {
         httpOnly: true,
@@ -30,5 +31,5 @@ export default async (req, res) => {
     ]);
   }
 
-  res.status(request.status).json(user);
+  res.status(response.status).json(user);
 }

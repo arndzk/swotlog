@@ -16,3 +16,6 @@ Profile:
 Classes/Groups View:
   ☐ Feed
   ☐ Post Input
+
+Error handling:
+  ☐ If not json or .error is presented, something went wrong

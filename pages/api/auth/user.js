@@ -5,9 +5,10 @@ export default async (req, res) => {
   const { uid, token } = parse(req.headers.cookie)
   
   const request = await fetch(`http://192.168.1.106:3000/users/${uid}`, {
-		method: 'POST',
+    method: 'POST',
+    credentials: 'include',
 		headers: {
-      'Authotization': `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json; charset=utf-8',
     },
   });  
