@@ -1,3 +1,22 @@
+export const signUp = data =>
+  fetch('/api/auth/signup', {
+    method: 'POST',
+    headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+    },
+		body: JSON.stringify({
+      data
+		}),
+  }).then(response => {
+    if (response.status === 401)
+      throw "Authentication error"
+    
+    if (response.status === 404 || response.status === 500)
+      throw "Service temporarily unvailable";
+      
+    return response.json();
+  })
+  
 export const requestAuthentication = ({ email, password }) => 
   fetch('/api/auth/login', {
 		method: 'POST',
