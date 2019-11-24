@@ -1,7 +1,8 @@
 import { ERROR_MESSAGE, 
 	SUCCESS_MESSAGE, CLEAR_MESSAGE, 
 	LOADING, AUTH_RESPONSE, AUTH_REQUEST, 
-	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED } from '../actions';
+	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED,
+	SIGN_UP_SUCCESS } from '../actions';
 
 export const loadingReducer = (state = false, action) => {
 	const { loading, type } = action;
@@ -41,6 +42,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 			};
 
 		case AUTH_RESPONSE:
+		case SIGN_UP_SUCCESS:
 		case SUCCESS_MESSAGE:
 			return {
 				...state,

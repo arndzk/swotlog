@@ -1,3 +1,5 @@
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_RESPONSE = 'AUTH_RESPONSE';
 export const FETCH_USER_INFO = 'FETCH_USER_INFO';

@@ -1,4 +1,5 @@
 // template cutt.ly/DeHfa4y
+import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -6,11 +7,23 @@ import Grid from '@material-ui/core/Grid';
 import SchoolIcon from '@material-ui/icons/School';
 import Typography from '@material-ui/core/Typography';
 import Link from 'components/Link';
+import { signUp } from 'actions/user';
 
 import useStyles from './styles';
 
-export default () => {
+const SignUp = ({ signUp }) => {
   const classes = useStyles();
+  const [data, setData] = React.useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    signUp(data);
+  }
 
   return (
     <div className={classes.paper}>
@@ -20,7 +33,7 @@ export default () => {
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -31,7 +44,12 @@ export default () => {
               fullWidth
               id="firstName"
               label="First Name"
+              value={data.firstName}
               autoFocus
+              onChange={e => setData({
+                ...data,
+                [e.target.id]: e.target.value
+              })}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -43,6 +61,11 @@ export default () => {
               label="Last Name"
               name="lastName"
               autoComplete="lname"
+              value={data.lastName}
+              onChange={e => setData({
+                ...data,
+                [e.target.id]: e.target.value
+              })}
             />
           </Grid>
           <Grid item xs={12}>
@@ -55,6 +78,11 @@ export default () => {
               name="email"
               autoComplete="email"
               type="email"
+              value={data.email}
+              onChange={e => setData({
+                ...data,
+                [e.target.id]: e.target.value
+              })}
             />
           </Grid>
           <Grid item xs={12}>
@@ -66,8 +94,22 @@ export default () => {
               label="Password"
               type="password"
               id="password"
+              inputProps={{ pattern: "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$" }}
               autoComplete="current-password"
+              value={data.password}
+              onChange={e => setData({
+                ...data,
+                [e.target.id]: e.target.value
+              })}
             />
+            <Typography 
+              className={classes.pswTip}
+              component="i" 
+              variant="span"
+              >
+                At least 8 characters including:&nbsp;
+                  <b>uppercase, lowercase, number/special character</b>
+            </Typography>
           </Grid>
         </Grid>
         <Button
@@ -90,3 +132,5 @@ export default () => {
     </div>
   );
 }
+
+export default connect(null, { signUp })(SignUp);
