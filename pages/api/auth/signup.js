@@ -11,21 +11,7 @@ export default async (req, res) => {
 		}),
   });  
   
-  const { token, ...user } = await response.json();
+  const data = await response.json();
 
-  if (response.status === 200) {
-    res.setHeader('Set-Cookie', [
-      serialize('token', token, {
-        httpOnly: true,
-        maxAge: MAX_AGE,
-        path: '/'
-      }),
-      serialize('uid', user.id, {
-        maxAge: MAX_AGE,
-        path: '/'
-      })
-    ]);
-  }
-
-  res.status(response.status).json(user);
+  res.status(response.status).json(data);
 }

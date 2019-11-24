@@ -16,9 +16,9 @@ export const signUp = data =>
       
     return response.json();
   })
-  
+
 export const requestAuthentication = ({ email, password }) => 
-  fetch('/api/auth/login', {
+  fetch('/api/auth/signin', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',
