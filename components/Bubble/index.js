@@ -10,14 +10,9 @@ const Bubble = ({ user, logout }) => {
   if (!user.id) return null;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
   const actions = { // may have more
     logout,
   }
-
-  const handleChange = event => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +51,7 @@ const Bubble = ({ user, logout }) => {
         vertical: 'top',
         horizontal: 'right',
       }}
-      open={open}
+      open={!!anchorEl}
       onClose={handleClose}
     >
       <MenuItem onClick={() => handleClose({ route: '/profile'})}>Profile</MenuItem>
