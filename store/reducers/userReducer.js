@@ -1,32 +1,24 @@
-import { AUTH_RESPONSE, LOGOUT, USER_DETAILS, USER_DETAILS_UPDATED } from '../actions';
+import { AUTH_RESPONSE, LOGOUT, 
+  USER_DETAILS, USER_DETAILS_UPDATED,
+  USER_INFO_FETCHED } from '../actions';
 import { AUTH_COOKIE_NAME } from 'constants/misc';
 
-// const initialState = {
-//   id: null,
-//   email: '',
-//   firstName: '',
-//   lastName: '',
-//   dateOfBirth: null,
-//   subs: [],
-//   passed: []
-// };
-
-const initialState = { //dummy
-  "id": 1,
-  "email": "takis@takis.gg",
-  "firstName": "Takis",
-  "lastName": "Takis",
-  "dateOfBirth": null,
-  "subs": [],
-  "passed": []
-};
-
-export default (state = initialState, action) => {
+export default (state = {
+  id: null,
+  email: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: null,
+  subs: [],
+  passed: []
+}, action) => {
   const { user, userDetails, type } = action;
 
   switch(type) {
     case AUTH_RESPONSE:
+    case USER_INFO_FETCHED:
       return {
+        ...state,
         ...user,
       };
 

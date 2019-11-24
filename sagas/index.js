@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import { select, call, put, takeEvery, delay } from 'redux-saga/effects';
 import * as api from '../api';
 import {
@@ -6,6 +7,8 @@ import {
 	AUTH_RESPONSE,
 	FETCH_USER_DETAILS,
 	USER_DETAILS,
+	FETCH_USER_INFO,
+	USER_INFO_FETCHED,
 	UPDATE_USER_DETAILS,
 	USER_DETAILS_UPDATED
 } from 'actions';
@@ -106,6 +109,23 @@ function* fetchUserDetails() {
 	}
 }
 
+function* fetchUserInfo ({ cookies }) {
+	try {
+		const user = yield call(api.fetchUserInfo, cookies);
+				
+		if (user.id) {
+			yield put({
+				type: USER_INFO_FETCHED,
+        user,
+			});
+		} else {
+			throw "Something went wrong";
+		}
+	} catch (error) {
+		yield put({ type: ERROR_MESSAGE, message: error });
+	}
+}
+
 function* requestAuthentication(action) {
   const { email, password } = action;
   
@@ -122,6 +142,8 @@ function* requestAuthentication(action) {
         user,
         message: `Welcome ${user.firstName}!`
 			});
+
+      Router.push('/');
 		} else {
 			throw "Something went wrong";
 		}
@@ -132,6 +154,7 @@ function* requestAuthentication(action) {
 
 function* rootSaga() {
 	yield takeEvery(AUTH_REQUEST, requestAuthentication);
+	yield takeEvery(FETCH_USER_INFO, fetchUserInfo);
 	yield takeEvery(FETCH_USER_DETAILS, fetchUserDetails);
 	yield takeEvery(UPDATE_USER_DETAILS, updateUserData);
 }

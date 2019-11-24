@@ -1,15 +1,26 @@
+import { connect } from 'react-redux';
 import HomeGuest from 'views/HomeGuest';
 import Feed from 'views/Feed';
 
-const Home = ({ authCookiePresented }) => {
-  
+const Home = ({ user }) => {
   return <>
     {
-      authCookiePresented 
+      user.id
         ? <Feed />
         : <HomeGuest />
     }
   </>
 }
 
-export default Home;
+// Home.getInitialProps = async (ctx) => {
+//   const { store, isServer } = ctx;
+
+//   if (!store.getState().user.id) {
+//     const { uid, token } = parseCookies(ctx);
+//     await store.dispatch(fetchUserInfo({ uid, token }));
+//   }  
+
+//   return { isServer }
+// }
+
+export default connect(state => ({ user: state.user }))(Home);

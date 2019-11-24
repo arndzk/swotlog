@@ -2,6 +2,8 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_RESPONSE = 'AUTH_RESPONSE';
 export const FETCH_USER_DETAILS = 'FETCH_USER_DETAILS';
 export const USER_DETAILS = 'USER_DETAILS';
+export const FETCH_USER_INFO = 'FETCH_USER_INFO';
+export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const LOGOUT = 'LOGOUT';
 
 export const POSTS_FETCHED = 'POSTS_FETCHED';

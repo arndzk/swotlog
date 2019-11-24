@@ -1,44 +1,30 @@
-import NextApp from "next/app";
-import Head from "next/head";
+import NextApp from 'next/app';
+import Head from 'next/head';
 import Router from 'next/router';
 import { Provider, connect } from 'react-redux'
-import withRedux from "next-redux-wrapper";
+import withRedux from 'next-redux-wrapper';
+import withReduxSaga from 'next-redux-saga'
+import { parseCookies, destroyCookie } from 'nookies'
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+import Footer from 'components/Footer';
+import Header from 'components/Header';
+import Preloader from 'components/Preloader';
+import Toast from 'components/Toast';
 
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
-import Footer from "components/Footer";
-import Header from "components/Header";
-import Preloader from "components/Preloader";
-import Toast from "components/Toast";
-
-import { PAGE_TITLES } from "constants/misc";
-import { cookieOnRequest, cookieOnDocument } from 'utils/helpers/auth';
-import { redirectIfNecessary } from 'utils/helpers/pathManager';
+import { PAGE_TITLES } from 'constants/misc';
 import { setLoading } from 'actions/misc';
 import configureStore from '../store';
-
-import { ThemeProvider } from "@material-ui/core/styles";
-import theme from "../utils/theme";
-
+import { fetchUserInfo } from 'actions/user';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { redirectIfNecessary } from 'utils/helpers/pathManager'
+import theme from 'utils/theme';
 
 class App extends NextApp {
-  static async getInitialProps(appContext) {
-    const appProps = await NextApp.getInitialProps(appContext);
-    const isServer = !!appContext.ctx.req; // TODO: verify later
-    const authCookiePresented = isServer ? cookieOnRequest(appContext.ctx) : cookieOnDocument();
-    
-    redirectIfNecessary(authCookiePresented, appContext.ctx);
-
-    return { 
-      ...appProps,
-      authCookiePresented,
-     }
-  }
-
   componentDidMount() {
     const { setLoading } = this.props;
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
@@ -53,28 +39,27 @@ class App extends NextApp {
     const {
       Component,
       pageProps,
-      authCookiePresented,
       router: { asPath },
       store
     } = this.props;
-    const [, main, sub] = asPath.split("/");
+    const [, main, sub] = asPath.split('/');
     const title = PAGE_TITLES[main];
 
     return (
       <>
         <Head>
-          <title>{title ? `${title} | ` : ""}Swotlog</title>
+          <title>{title ? `${title} | ` : ''}Swotlog</title>
         </Head>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Preloader barHeight="3px" barWidth="100%" bgColor="#fff" barColor="#e6e600" />
+            <Preloader barHeight='3px' barWidth='100%' bgColor='#fff' barColor='#e6e600' />
             <Header />
             <Container
-              component="main"
-              {...(["signin", "signup"].includes(main) && { maxWidth: "xs" })}
+              component='main'
+              {...(['signin', 'signup'].includes(main) && { maxWidth: 'xs' })}
             >
-              <Component {...pageProps } authCookiePresented={authCookiePresented} />
+              <Component {...pageProps } />
             </Container>
             <Footer />
             <Toast />
@@ -85,9 +70,24 @@ class App extends NextApp {
   }
 }
 
+App.getInitialProps = async ({ ctx }) => {
+  const { store, isServer } = ctx;
+  const { uid, token } = parseCookies(ctx);
+  
+  if (!store.getState().user.id) {
+    if (uid && token)
+      store.dispatch(fetchUserInfo({ uid, token }));
+  }  
+
+  if (!uid) {
+    await destroyCookie(ctx, 'token')
+  }
+
+  redirectIfNecessary(token && uid || !isServer && uid, ctx);
+}
+
 export default withRedux(configureStore)(
-	connect(
-		null,
-		{ setLoading }
-	)(App)
-);
+  withReduxSaga(
+    connect(null, { 
+      setLoading 
+    })(App)))
