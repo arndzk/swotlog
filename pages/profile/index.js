@@ -97,7 +97,7 @@ Profile.getInitialProps = async ctx => {
   const { token } = parseCookies(ctx); 
 
   if (!ctx.store.getState().classes.length)
-    ctx.store.dispatch(doFetch(FETCH_CLASSES, token, '/classes'));
+    await ctx.store.dispatch(doFetch(FETCH_CLASSES, token, '/classes'));
   
   return {}; // hmmmm..
 }
