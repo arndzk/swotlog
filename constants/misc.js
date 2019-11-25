@@ -12,3 +12,5 @@ export const USER_ZONES = ['/profile'];
 export const AUTH_COOKIE_NAME = 'token';
 
 export const USER_COOKIE = 'uid';
+
+export const API_URL = 'http://localhost:3000/api';

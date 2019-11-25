@@ -9,12 +9,8 @@ import useStyles from './styles';
 
 export default ({ list, toCheck, callback }) => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = React.useState(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)));
   
-  React.useEffect(()=> {
-    setChecked(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)))
-  }, [list]);
-
   const handleToggle = value => () => { // this is working with indexes
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];

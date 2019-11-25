@@ -1,10 +1,9 @@
 import Router from 'next/router'
-import { select, call, put, takeLatest } from 'redux-saga/effects';
+import { select, call, put, takeLatest, all } from 'redux-saga/effects';
 import * as api from '../api';
 import {
 	// GENERAL
 	ERROR_MESSAGE,
-	MAP_ACTIONS,
 
 	// USER
 	SIGN_UP,
@@ -18,6 +17,7 @@ import {
 
 	// CORE
 	FETCH_CLASSES,
+	CLASSES_FETCHED,
 } from 'actions';
 
 function* updateUserData({ data }) { // TODO: those data have a meaning only to backend. I should try normalize them for me
@@ -39,15 +39,25 @@ function* updateUserData({ data }) { // TODO: those data have a meaning only to 
 	}
 }
 
-
-
-function* doFetch({ type, token, route }) {
+function* fetchClasses({ token }) {
 	try {
-		const payload = yield call(api.doFetch, { token, route });
-		
+		const [ 
+			classes,
+			subscribed,
+			passed,
+		] = yield all([
+			call(api.doFetch, { token, route: '/classes' }),
+			call(api.doFetch, { token, route: '/users/subscribed' }),
+			call(api.doFetch, { token, route: '/users/passed' }),
+		]);
+
 		yield put({
-			type: MAP_ACTIONS[type],
-			payload,
+			type: CLASSES_FETCHED,
+			payload: {
+				classes,
+				subscribed,
+				passed
+			},
 		})
 	} catch (error) {
 		yield put({ type: ERROR_MESSAGE, message: error });
@@ -56,7 +66,10 @@ function* doFetch({ type, token, route }) {
 
 function* fetchUserInfo ({ cookies }) {
 	try {
-		const user = yield call(api.fetchUserInfo, cookies);
+		const user = yield call(api.doFetch, {
+			internalRoute: '/auth/user',
+			...cookies
+		});
 
 		if (user.id) {
 			yield put({
@@ -76,9 +89,12 @@ function* requestAuthentication(action) {
   
 	try {
 		const user = yield call(
-      api.requestAuthentication, {
-      email,
-      password
+      api.doFetch, {
+				internalRoute: '/auth/signin',
+				data: {
+					email,
+					password
+				}
 		});
 
 		if (user.id) {
@@ -99,7 +115,10 @@ function* requestAuthentication(action) {
 
 function* signUp({ data }) {
 	try {
-		const done = yield call(api.signUp, data);
+		const done = yield call(api.doFetch, { 
+			internalRoute: '/auth/signup',
+			data 
+		});
 
 		yield put({
 			type: SIGN_UP_SUCCESS,
@@ -119,7 +138,7 @@ function* rootSaga() {
 	yield takeLatest(SIGN_UP, signUp);
 
 	// CORE FETCH
-	yield takeLatest(FETCH_CLASSES, doFetch);
+	yield takeLatest(FETCH_CLASSES, fetchClasses);
 
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);

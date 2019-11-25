@@ -1,1 +1,4 @@
-export const doFetch = (type, token, route) => ({ type, token, route });
+export const fetchClasses = token => ({ 
+  type: 'FETCH_CLASSES', 
+  token
+});

@@ -1,78 +1,32 @@
-export const signUp = data =>
-  fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-    },
-		body: JSON.stringify({
-      data
-		}),
-  }).then(response => {
-    if (response.status === 401)
-      throw "Authentication error"
-    
-    if (response.status === 404 || response.status === 500)
-      throw "Service temporarily unvailable";
-      
-    return response.json();
-  })
+import { API_URL } from 'constants/misc';
 
-export const requestAuthentication = ({ email, password }) => 
-  fetch('/api/auth/signin', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-    },
-		body: JSON.stringify({
-      email,
-      password
-		}),
-  }).then(response => {
-    if (response.status === 401)
-      throw "Authentication error"
-    
-    if (response.status === 404 || response.status === 500)
-      throw "Service temporarily unvailable";
-      
-    return response.json();
-  })
-
-export const fetchUserInfo = ({ token, uid }) =>
-  (typeof window !== 'undefined' ? window.fetch : require('node-fetch'))('http://localhost:3000/api/auth/user', {
-    method: 'POST',
-    credentials: 'include',
-    ...(typeof window === 'undefined' && {
+export const doFetch = ({
+  internalRoute,
+  token,
+  route,
+  data,
+  uid,
+}) => (typeof window !== 'undefined' 
+  ? window.fetch 
+  : require('node-fetch'))
+    (`${API_URL}${internalRoute ? internalRoute : ''}`, {
+      method: 'POST',
+      body: JSON.stringify({ 
+        ...data,
+        route,
+      }),
       headers: {
-        cookie: `token=${token}; uid=${uid}`
+        'Content-Type': 'application/json; charset=utf-8',
+        ...(typeof window === 'undefined' && token, {
+          cookie: `token=${token};${uid ? ` uid=${uid}` : ''}`
+        })
       },
-    })
-  }).then(response => {
-    if (response.status === 401)
-      throw "Authentication error"
-  
-    if (response.status === 404 || response.status === 500)
-      throw "Service temporarily unvailable";
+    }).then(response => {
+      if (response.status === 401)
+        throw "Authentication error"
+    
+      if (response.status === 404 || response.status === 500)
+        throw "Service temporarily unvailable";
       
-    return response.json();
+      return response.json();
   });
-
-export const doFetch = ({ token, route }) =>
-  (typeof window !== 'undefined' ? window.fetch : require('node-fetch'))('http://localhost:3000/api', {
-    method: 'POST',
-    credentials: 'include',
-    body: JSON.stringify({ route }),
-    headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-      ...(typeof window === 'undefined' && {
-        cookie: `token=${token};`
-      })
-    },
-  }).then(response => {
-    if (response.status === 401)
-      throw "Authentication error"
-  
-    if (response.status === 404 || response.status === 500)
-      throw "Service temporarily unvailable";
-      
-    return response.json();
-  })

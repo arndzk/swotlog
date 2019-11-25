@@ -8,8 +8,6 @@ const initialState = {
   email: '',
   firstName: '',
   lastName: '',
-  dateOfBirth: null,
-  classes: {}
 };
 
 export default (state = initialState, action) => {

@@ -18,7 +18,3 @@ export const SUCCESS_MESSAGE = 'SUCCESS_MESSAGE';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 export const LOADING = 'LOADING';
-
-export const MAP_ACTIONS = {
-  FETCH_CLASSES: CLASSES_FETCHED,
-}

@@ -13,12 +13,18 @@ import CheckList from 'components/CheckList';
 import TabPanel from 'components/TabPanel';
 
 import { updateUserData } from 'actions/user';
-import { FETCH_CLASSES } from 'actions';
-import { doFetch } from 'actions/core';
+import { fetchClasses } from 'actions/core';
 
 import useStyles from './styles';
 
-const Profile = ({ user: { firstName, lastName, email, classes: { passed, subscribed } }, classes: subjects }) => {
+const Profile = ({ 
+  user: { firstName, lastName, email }, 
+  classes: { 
+    classes: subjects,
+    subscribed,
+    passed
+  }
+ }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState('one'); // tab selection
   const [userData, setUserData] = React.useState({
@@ -82,12 +88,18 @@ const Profile = ({ user: { firstName, lastName, email, classes: { passed, subscr
       
       {/* Subscribed */}
       <TabPanel value={value} index="two" style={{ width: '100% '}}>
-        <CheckList list={subjects} toCheck={subscribed} />
+        {
+          subjects 
+            && <CheckList list={subjects} toCheck={subscribed} />
+        }
       </TabPanel>
       
       {/* Passed */}
       <TabPanel value={value} index="three" style={{ width: '100% '}}>
-        <CheckList list={subjects} toCheck={passed} />
+        {
+          subjects
+            && <CheckList list={subjects} toCheck={passed} />
+        }
       </TabPanel>
     </Grid>
   );
@@ -96,8 +108,8 @@ const Profile = ({ user: { firstName, lastName, email, classes: { passed, subscr
 Profile.getInitialProps = async ctx => {
   const { token } = parseCookies(ctx); 
 
-  if (!ctx.store.getState().classes.length)
-    await ctx.store.dispatch(doFetch(FETCH_CLASSES, token, '/classes'));
+  if (!ctx.store.getState().classes.passed)
+    await ctx.store.dispatch(fetchClasses(token));
   
   return {}; // hmmmm..
 }
@@ -105,7 +117,7 @@ Profile.getInitialProps = async ctx => {
 export default connect(
   state => ({ 
     user: state.user,
-    classes: state.classes
+    classes: state.classes,
    }), 
   { updateUserData }
 )(Profile);
