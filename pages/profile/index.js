@@ -26,11 +26,30 @@ const Profile = ({
   }
  }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState('one'); // tab selection
+  const [value, setValue] = React.useState(0); // tab selection
   const [userData, setUserData] = React.useState({
     firstName,
     lastName,
-  })
+
+    // backend needs subscribed & passed as an array of ids
+    subscribed: subscribed.map(s => s.id),  
+    passed: passed.map(s => s.id),  
+  });
+
+  const handleClasses = (key, index) => {
+    const newValue = subjects[index].id;
+    const shouldRemove = userData[key].includes(newValue)
+
+    setUserData({
+      ...userData,
+      [key]: shouldRemove 
+        ? userData[key].filter(v => v !== newValue) 
+        : userData[key].concat(newValue),
+    })
+  }
+
+  console.log(userData);
+  
   
   return (
     <Grid 
@@ -54,14 +73,14 @@ const Profile = ({
       </Grid>
       <div className={classes.tabSelect}>
         <Tabs value={value} onChange={(ev, value) => setValue(value)}>
-          <Tab value="one" label="General" />
-          <Tab value="two" label="Subscribed to" />
-          <Tab value="three" label="Passed" />
+          <Tab label="General" />
+          <Tab label="Subscribed to" />
+          <Tab label="Passed" />
         </Tabs>
       </div>
 
       {/* General */}
-      <TabPanel boxClassName={classes.verticalPanel} value={value} index="one">
+      <TabPanel boxClassName={classes.verticalPanel} value={value} index={0}>
         <TextField
           id="firstName"
           label="First Name"
@@ -87,18 +106,26 @@ const Profile = ({
       </TabPanel>
       
       {/* Subscribed */}
-      <TabPanel value={value} index="two" style={{ width: '100% '}}>
+      <TabPanel value={value} index={1} style={{ width: '100% '}}>
         {
-          subjects 
-            && <CheckList list={subjects} toCheck={subscribed} />
+          subjects && 
+            <CheckList 
+              id="subscribed" 
+              list={subjects} 
+              toCheck={subscribed} 
+              handleClasses={handleClasses} />
         }
       </TabPanel>
       
       {/* Passed */}
-      <TabPanel value={value} index="three" style={{ width: '100% '}}>
+      <TabPanel value={value} index={2} style={{ width: '100% '}}>
         {
-          subjects
-            && <CheckList list={subjects} toCheck={passed} />
+          subjects && 
+            <CheckList 
+              id="passed" 
+              list={subjects} 
+              toCheck={passed} 
+              handleClasses={handleClasses} />
         }
       </TabPanel>
     </Grid>
@@ -108,9 +135,12 @@ const Profile = ({
 Profile.getInitialProps = async ctx => {
   const { token } = parseCookies(ctx); 
 
-  if (!ctx.store.getState().classes.passed)
+  if (!ctx.store.getState().classes.passed) {
     await ctx.store.dispatch(fetchClasses(token));
+    // await ctx.store.sagaTask.toPromise()
+  }
   
+
   return {}; // hmmmm..
 }
 

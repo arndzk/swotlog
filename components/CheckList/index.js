@@ -7,7 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 import useStyles from './styles';
 
-export default ({ list, toCheck, callback }) => {
+export default ({ id, list, toCheck, handleClasses }) => {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)));
   
@@ -22,6 +22,7 @@ export default ({ list, toCheck, callback }) => {
     }
 
     setChecked(newChecked);
+    handleClasses(id, value);
   };
 
   return <>
