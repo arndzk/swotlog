@@ -1,16 +1,16 @@
 Restriction:
-  ☐ Password validate
+  ✔ Password validate @done(19-11-26 01:31)
 
 Home:
-  ☐ Show a list of subscribed classes/groups
+  ✔ Show a list of subscribed classes/groups @done(19-11-26 01:31)
 
   ☐ Posts from subscribed classes
   ☐ Posts from connected groups
 
 Profile:
-  ☐ General
-  ☐ Subscriptions
-  ☐ Courses Success
+  ✔ General @done(19-11-26 01:31)
+  ✔ Subscriptions @done(19-11-26 01:31)
+  ✔ Courses Success @done(19-11-26 01:31)
   ☐ Followers
 
 Classes/Groups View:
@@ -18,4 +18,6 @@ Classes/Groups View:
   ☐ Post Input
 
 Error handling:
+  ☐ ?
   ☐ If not json or .error is presented, something went wrong
+  ☐ block view on sagas fetch
