@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { END } from 'redux-saga';
 import { parseCookies } from 'nookies'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -18,12 +19,16 @@ import { fetchClasses } from 'actions/core';
 import useStyles from './styles';
 
 const Profile = ({ 
+  // state
   user: { firstName, lastName, email }, 
   classes: { 
     classes: subjects,
     subscribed,
     passed
-  }
+  },
+
+  // actions
+  updateUserData,
  }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0); // tab selection
@@ -46,11 +51,10 @@ const Profile = ({
         ? userData[key].filter(v => v !== newValue) 
         : userData[key].concat(newValue),
     })
+
+    updateUserData(userData); // TODO if fail
   }
 
-  console.log(userData);
-  
-  
   return (
     <Grid 
       className={classes.wrapper} 
@@ -137,7 +141,11 @@ Profile.getInitialProps = async ctx => {
 
   if (!ctx.store.getState().classes.passed) {
     await ctx.store.dispatch(fetchClasses(token));
-    // await ctx.store.sagaTask.toPromise()
+
+    if (ctx.store.sagaTask) {
+      ctx.store.dispatch(END);
+      await ctx.store.sagaTask.toPromise();
+    }
   }
   
 

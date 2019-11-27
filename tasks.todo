@@ -18,6 +18,8 @@ Classes/Groups View:
   ☐ Post Input
 
 Error handling:
-  ☐ ?
-  ☐ If not json or .error is presented, something went wrong
-  ☐ block view on sagas fetch
+  ✔ ? @done(19-11-27 02:32)
+  ✔ If not json or .error is presented, something went wrong @done(19-11-27 02:32)
+  ✔ block view on sagas fetch @done(19-11-27 02:32)
+
+  ☐ if no passed or subd we should render the view with no errors :D

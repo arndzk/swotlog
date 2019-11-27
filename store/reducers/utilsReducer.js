@@ -43,6 +43,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 
 		case AUTH_RESPONSE:
 		case SIGN_UP_SUCCESS:
+		case USER_DETAILS_UPDATED:
 		case SUCCESS_MESSAGE:
 			return {
 				...state,

@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { select, call, put, takeLatest, all } from 'redux-saga/effects';
+import { spawn, select, call, put, takeLatest, all } from 'redux-saga/effects';
 import * as api from '../api';
 import {
 	// GENERAL
@@ -21,18 +21,17 @@ import {
 } from 'actions';
 
 function* updateUserData({ data }) { // TODO: those data have a meaning only to backend. I should try normalize them for me
-	const { user: { id } } = yield select(); // use id for fetch
-	// const done = yield call(
-	// 	api.updateUserInfo, {
-	// 	id,
-	// 	data
-	// });
-
+	
 	try {
-		if (done) { 
-			yield put({ type: USER_DETAILS_UPDATED });
+		const done = yield call(api.doFetch, { data, route: '/users/update' });
+
+		if (!done.error) { 
+			yield put({ 
+				type: USER_DETAILS_UPDATED,
+				message: 'User details updated successfully!'
+			});
 		} else {
-			throw "Something went wrong";
+			throw done.error;
 		}
 	} catch (error) {
 		yield put({ type: ERROR_MESSAGE, message: error });
@@ -136,10 +135,10 @@ function* rootSaga() {
 	yield takeLatest(AUTH_REQUEST, requestAuthentication);
 	yield takeLatest(FETCH_USER_INFO, fetchUserInfo);
 	yield takeLatest(SIGN_UP, signUp);
-
+	
 	// CORE FETCH
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
-
+	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
 }
