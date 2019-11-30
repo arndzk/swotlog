@@ -68,9 +68,11 @@ const Profile = ({
       {/* Subscribed */}
       <TabPanel className={classes.tabPanel} value={value} index={1}>
         {
-          subjects && 
+          hasSubscribed && 
             <CheckList 
               id="Subscribed" 
+              firstName={firstName} 
+              lastName={lastName} 
               list={subjects} 
               toCheck={hasSubscribed} />
         }
@@ -79,9 +81,11 @@ const Profile = ({
       {/* Passed */}
       <TabPanel className={classes.tabPanel} value={value} index={2}>
         {
-          subjects && 
+          hasPassed && 
             <CheckList 
               id="Passed" 
+              firstName={firstName} 
+              lastName={lastName} 
               list={subjects} 
               toCheck={hasPassed} />
         }

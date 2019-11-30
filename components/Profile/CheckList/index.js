@@ -11,7 +11,7 @@ import { updateUserData } from 'actions/user';
 
 import useStyles from './styles';
 
-const CheckList = ({ id, list, toCheck, updateUserData }) => {
+const CheckList = ({ id, firstName, lastName, list, toCheck, updateUserData }) => {
   const classes = useStyles();
   // state for view
   const [checked, setChecked] = React.useState(toCheck.map(item => list.findIndex(listItem => item.id === listItem.id)));
@@ -23,6 +23,8 @@ const CheckList = ({ id, list, toCheck, updateUserData }) => {
     ev.preventDefault();
 
     updateUserData({
+      firstName,
+      lastName,
       classes: dataToSubmit
     }) 
   }
