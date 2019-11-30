@@ -21,126 +21,103 @@ import {
 } from 'actions';
 
 function* updateUserData({ data }) {
-	try {
-		const done = yield call(api.doFetch, { data, route: '/users/update' });
+	const done = yield call(api.doFetch, { data, route: '/users/update' });
 
-		if (!done.error) { 
-			yield put({ 
-				type: USER_DETAILS_UPDATED,
-				user: {
-					...data,
-				},
-				message: 'User details updated successfully!'
-			});
-		} else {
-			throw done.error;
-		}
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	if (done.error) throw done.error;
+
+	yield put({ 
+		type: USER_DETAILS_UPDATED,
+		user: {
+			...data,
+		},
+		message: 'User details updated successfully!'
+	});
 }
 
 function* fetchClasses({ token }) {
-	try {
-		const [ 
-			classes,
-			hasSubscribed,
-			hasPassed,
-		] = yield all([
-			call(api.doFetch, { token, route: '/classes' }),
-			call(api.doFetch, { token, route: '/users/subscribed' }),
-			call(api.doFetch, { token, route: '/users/passed' }),
-		]);
+	const [ 
+		classes,
+		hasSubscribed,
+		hasPassed,
+	] = yield all([
+		call(api.doFetch, { token, route: '/classes' }),
+		call(api.doFetch, { token, route: '/users/subscribed' }),
+		call(api.doFetch, { token, route: '/users/passed' }),
+	]);
 
-		yield put({
-			type: CLASSES_FETCHED,
-			classes,
-			hasSubscribed,
-			hasPassed
-		})
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	yield put({
+		type: CLASSES_FETCHED,
+		classes,
+		hasSubscribed,
+		hasPassed
+	})
 }
 
 function* fetchUserInfo ({ cookies }) {
-	try {
-		const user = yield call(api.doFetch, {
-			internalRoute: '/auth/user',
-			...cookies
-		});
+	const user = yield call(api.doFetch, {
+		internalRoute: '/auth/user',
+		...cookies
+	});
 
-		if (user.id) {
-			yield put({
-				type: USER_INFO_FETCHED,
-        user,
-			});
-		} else {
-			throw "Something went wrong";
-		}
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	if (!user.id) throw "Something went wrong";
+
+	yield put({
+		type: USER_INFO_FETCHED,
+		user,
+	});
 }
 
 function* requestAuthentication(action) {
   const { email, password } = action;
-  
-	try {
-		const user = yield call(
-      api.doFetch, {
-				internalRoute: '/auth/signin',
-				data: {
-					email,
-					password
-				}
-		});
+	const user = yield call(
+		api.doFetch, {
+			internalRoute: '/auth/signin',
+			data: {
+				email,
+				password
+			}
+	});
 
-		if (user.id) {
-			yield put({
-				type: AUTH_RESPONSE,
-        user,
-        message: `Welcome ${user.firstName}!`
-			});
+	if (!user.id) throw "Something went wrong";
 
-      Router.push('/');
-		} else {
-			throw "Something went wrong";
-		}
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	yield put({
+		type: AUTH_RESPONSE,
+		user,
+		message: `Welcome ${user.firstName}!`
+	});
+
+	Router.push('/');
 }
 
 function* signUp({ data }) {
-	try {
-		const done = yield call(api.doFetch, { 
-			route: '/users/create',
-			data 
-		});
+	const done = yield call(api.doFetch, { 
+		route: '/users/create',
+		data 
+	});
 
-		yield put({
-			type: SIGN_UP_SUCCESS,
-			message: done.message
-		})
+	yield put({
+		type: SIGN_UP_SUCCESS,
+		message: done.message
+	})
 
-		Router.push('/signin');
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	Router.push('/signin');
 }
 
 function* rootSaga() {
-	// USER
-	yield takeLatest(AUTH_REQUEST, requestAuthentication);
-	yield takeLatest(FETCH_USER_INFO, fetchUserInfo);
-	yield takeLatest(SIGN_UP, signUp);
-	
-	// CORE FETCH
-	yield takeLatest(FETCH_CLASSES, fetchClasses);
-	
-	// PUT
-	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
+	try {
+		// USER
+		yield takeLatest(AUTH_REQUEST, requestAuthentication);
+		yield takeLatest(FETCH_USER_INFO, fetchUserInfo);
+		yield takeLatest(SIGN_UP, signUp);
+		
+		// CORE FETCH
+		yield takeLatest(FETCH_CLASSES, fetchClasses);
+		
+		// PUT
+		yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
+	} catch (error) {
+		yield put({ type: ERROR_MESSAGE, message: error });
+	}
 }
 
 export default rootSaga;
