@@ -11,6 +11,7 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import Preloader from 'components/Preloader';
 import Toast from 'components/Toast';
+import Navigation from 'components/Navigation';
 
 import { PAGE_TITLES } from 'constants/misc';
 import { setLoading } from 'actions/misc';
@@ -23,11 +24,8 @@ import theme from 'utils/theme';
 class App extends NextApp {
   componentDidMount() {
     const { setLoading } = this.props;
-    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
+    if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
 
     // TODO: (maybe) make separate actions for route change
 		Router.events.on('routeChangeStart', () => setLoading(true));
@@ -40,7 +38,8 @@ class App extends NextApp {
       Component,
       pageProps,
       router: { asPath },
-      store
+      store,
+      isAuthenticated
     } = this.props;
     const [, main, sub] = asPath.split('/');
     const title = PAGE_TITLES[main];
@@ -63,6 +62,7 @@ class App extends NextApp {
             </Container>
             <Footer />
             <Toast />
+            { isAuthenticated && !['profile', 'signin', 'signup'].includes(main) && <Navigation asPath={asPath} />}
           </ThemeProvider>
         </Provider>
       </>
@@ -81,9 +81,12 @@ App.getInitialProps = async (appContext) => {
 
   if (!uid)  await destroyCookie(appContext.ctx, 'token')
   
-  redirectIfNecessary(token && uid || !isServer && uid, appContext.ctx);
+  const isAuthenticated = token && uid || !isServer && uid;
+  
+  redirectIfNecessary(isAuthenticated, appContext.ctx);
 
   return {
+    isAuthenticated,
     ...pageProps
   }
 }
