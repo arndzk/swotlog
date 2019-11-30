@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme => ({
+  panel: {
+    cursor: 'default',
+  },
   card: {
     marginTop: '1rem',
     minWidth: 275,
@@ -8,7 +11,12 @@ export default makeStyles(theme => ({
   panelSummary: {
     "& > div:first-child": {
       display: 'block',
-    }
+    },
+    "&.Mui-focused": {
+      backgroundColor: '#fff',
+    },
+    cursor: 'auto!important',
+    userSelect: 'auto'
   },
   domain: {
     fontSize: 14,
@@ -45,7 +53,7 @@ export default makeStyles(theme => ({
   comment: {
     padding: theme.spacing(3, 2),
     boxShadow: 'none',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f9f9f9',
     marginTop: '5px',
     "& > p": {
       fontSize: '.9rem'
