@@ -115,7 +115,7 @@ function* requestAuthentication(action) {
 function* signUp({ data }) {
 	try {
 		const done = yield call(api.doFetch, { 
-			internalRoute: '/auth/signup',
+			route: '/users/create',
 			data 
 		});
 

@@ -21,14 +21,18 @@ const normalizeResponse = response => {
 }
 
 export default async (req, res) => {
-  const { token } = parse(req.headers.cookie);
   const { route, ...rest } = req.body;
-  let response;
+  let response, cookies;
   
+  if (req.headers.cookie)
+    cookies = parse(req.headers.cookie);
+
   const request = await fetch(`http://192.168.1.106:3000${route}`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      ...(cookies?.token && {
+        'Authorization': `Bearer ${cookies.token}`,
+      }),
       'Content-Type': 'application/json; charset=utf-8',
     },
     ...(rest && {
