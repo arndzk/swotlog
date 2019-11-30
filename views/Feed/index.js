@@ -13,9 +13,7 @@ import useStyles from './styles';
 
 const Feed = ({ posts }) => {
   const classes = useStyles(posts.length);
-
   const [value, setValue] = React.useState(0);
-  
 
   return <Container className={classes.feed} maxWidth="md">
     {

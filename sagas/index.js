@@ -53,11 +53,9 @@ function* fetchClasses({ token }) {
 
 		yield put({
 			type: CLASSES_FETCHED,
-			payload: {
-				classes,
-				subscribed,
-				passed
-			},
+			classes,
+			subscribed,
+			passed
 		})
 	} catch (error) {
 		yield put({ type: ERROR_MESSAGE, message: error });

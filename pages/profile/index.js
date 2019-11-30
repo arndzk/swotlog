@@ -18,16 +18,18 @@ import { fetchClasses } from 'actions/core';
 import useStyles from './styles';
 
 const Profile = ({ 
-  user: { firstName, lastName, email }, 
-  classes: { 
-    classes: subjects,
+  user: { 
+    firstName, 
+    lastName, 
+    email, 
     subscribed,
     passed
-  },
+  }, 
+  classes: subjects,
  }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0); // tab selection
-
+  
   return (
     <Grid 
       className={classes.wrapper} 

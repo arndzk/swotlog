@@ -12,15 +12,12 @@ export const postsReducer = (state = [1], action) => {
 	}
 };
 
-export const classesReducer = (state = {}, action) => {
-	const { payload, type } = action;
+export const classesReducer = (state = [], action) => {
+	const { classes, type } = action;
 	
 	switch (type) {
 		case CLASSES_FETCHED: 
-			return {
-				...state,
-				...payload
-			}
+			return state.concat(classes);
 
 		default:
 			return state;
