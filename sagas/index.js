@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { spawn, select, call, put, takeLatest, all } from 'redux-saga/effects';
+import { select, call, put, takeLatest, all } from 'redux-saga/effects';
 import * as api from '../api';
 import {
 	// GENERAL
@@ -28,6 +28,7 @@ function* updateUserData({ data }) { // TODO: those data have a meaning only to 
 		if (!done.error) { 
 			yield put({ 
 				type: USER_DETAILS_UPDATED,
+				user: data,
 				message: 'User details updated successfully!'
 			});
 		} else {

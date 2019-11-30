@@ -23,16 +23,11 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
     boxShadow: '0 1px 0px rgba(0,0,0,0.12)'
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
   verticalPanel: {
     display: 'flex',
     flexDirection: 'column'
   },
-  btn: {
-    marginTop: theme.spacing(2)
+  tabPanel: {
+    width: '100%'
   }
 }));

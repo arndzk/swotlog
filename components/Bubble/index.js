@@ -19,12 +19,12 @@ const Bubble = ({ user, logout }) => {
   };
 
   const handleClose = ({ route, action }) => {
-    if (route) 
-      Router.push(route)
-
     if (action) {
       actions[action]();
     }
+
+    if (route) 
+      Router.push(route)
 
     setAnchorEl(null);
   };
@@ -55,7 +55,7 @@ const Bubble = ({ user, logout }) => {
       onClose={handleClose}
     >
       <MenuItem onClick={() => handleClose({ route: '/profile'})}>Profile</MenuItem>
-      <MenuItem onClick={() => handleClose({ action: 'logout' })}>Logout</MenuItem>
+      <MenuItem onClick={() => handleClose({ route: '/', action: 'logout' })}>Logout</MenuItem>
     </Menu>
   </div>
 }

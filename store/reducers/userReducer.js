@@ -6,8 +6,8 @@ import { USER_COOKIE } from 'constants/misc';
 const initialState = {
   id: null,
   email: '',
-  firstName: '',
-  lastName: '',
+  firstName: 'A man',
+  lastName: 'has no name',
 };
 
 export default (state = initialState, action) => {
@@ -22,10 +22,9 @@ export default (state = initialState, action) => {
       };
 
     case USER_DETAILS_UPDATED: 
-      console.log('UPDATED DATA HEREEE!!!11!1ena!');
-    
       return {
         ...state,
+        ...user,
       }
     case LOGOUT:
       document.cookie = `${USER_COOKIE}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 

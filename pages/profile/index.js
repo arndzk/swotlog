@@ -4,56 +4,29 @@ import { parseCookies } from 'nookies'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import FaceIcon from '@material-ui/icons/Face';
 import EmailIcon from '@material-ui/icons/Email';
-import CheckList from 'components/CheckList';
-import TabPanel from 'components/TabPanel';
 
-import { updateUserData } from 'actions/user';
+import TabPanel from 'components/Profile/TabPanel';
+import CheckList from 'components/Profile/CheckList';
+import General from 'components/Profile/General'
+
 import { fetchClasses } from 'actions/core';
 
 import useStyles from './styles';
 
 const Profile = ({ 
-  // state
   user: { firstName, lastName, email }, 
   classes: { 
     classes: subjects,
     subscribed,
     passed
   },
-
-  // actions
-  updateUserData,
  }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0); // tab selection
-  const [userData, setUserData] = React.useState({
-    firstName,
-    lastName,
-
-    // backend needs subscribed & passed as an array of ids
-    subscribed: subscribed.map(s => s.id),  
-    passed: passed.map(s => s.id),  
-  });
-
-  const handleClasses = (key, index) => {
-    const newValue = subjects[index].id;
-    const shouldRemove = userData[key].includes(newValue)
-
-    setUserData({
-      ...userData,
-      [key]: shouldRemove 
-        ? userData[key].filter(v => v !== newValue) 
-        : userData[key].concat(newValue),
-    })
-
-    updateUserData(userData); // TODO if fail
-  }
 
   return (
     <Grid 
@@ -85,51 +58,30 @@ const Profile = ({
 
       {/* General */}
       <TabPanel boxClassName={classes.verticalPanel} value={value} index={0}>
-        <TextField
-          id="firstName"
-          label="First Name"
-          defaultValue={userData.firstName}
-          className={classes.textField}
-          margin="normal"
-          onChange={ev => setUserData({ ...userData, [event.target.id]: ev.target.value})}
-        />
-        <TextField
-          id="lastName"
-          label="Last Name"
-          defaultValue={userData.lastName}
-          className={classes.textField}
-          margin="normal"
-          onChange={ev => setUserData({ ...userData, [event.target.id]: ev.target.value})}
-        />
-        <Button 
-          className={classes.btn}
-          variant="contained" 
-          color="secondary">
-          Update Info
-        </Button>
+        <General 
+          firstName={firstName} 
+          lastName={lastName} />
       </TabPanel>
       
       {/* Subscribed */}
-      <TabPanel value={value} index={1} style={{ width: '100% '}}>
+      <TabPanel className={classes.tabPanel} value={value} index={1}>
         {
           subjects && 
             <CheckList 
               id="subscribed" 
               list={subjects} 
-              toCheck={subscribed} 
-              handleClasses={handleClasses} />
+              toCheck={subscribed} />
         }
       </TabPanel>
       
       {/* Passed */}
-      <TabPanel value={value} index={2} style={{ width: '100% '}}>
+      <TabPanel className={classes.tabPanel} value={value} index={2}>
         {
           subjects && 
             <CheckList 
               id="passed" 
               list={subjects} 
-              toCheck={passed} 
-              handleClasses={handleClasses} />
+              toCheck={passed} />
         }
       </TabPanel>
     </Grid>
@@ -142,13 +94,12 @@ Profile.getInitialProps = async ctx => {
   if (!ctx.store.getState().classes.passed) {
     await ctx.store.dispatch(fetchClasses(token));
 
-    if (ctx.store.sagaTask) {
+    if (ctx.store.sagaTask && !ctx.isServer) {
       ctx.store.dispatch(END);
       await ctx.store.sagaTask.toPromise();
     }
   }
   
-
   return {}; // hmmmm..
 }
 
@@ -156,8 +107,7 @@ export default connect(
   state => ({ 
     user: state.user,
     classes: state.classes,
-   }), 
-  { updateUserData }
+  })
 )(Profile);
 
 

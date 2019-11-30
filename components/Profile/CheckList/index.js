@@ -22,7 +22,7 @@ export default ({ id, list, toCheck, handleClasses }) => {
     }
 
     setChecked(newChecked);
-    handleClasses(id, value);
+    // handleClasses(id, value);
   };
 
   return <>
