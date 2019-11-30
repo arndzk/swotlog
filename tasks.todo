@@ -27,3 +27,8 @@ Error handling:
   ✔ block view on sagas fetch @done(19-11-27 02:32)
 
   ☐ if no passed or subd we should render the view with no errors :D
+
+
+Bugs:
+  ☐ on profile navigation the next api call want work
+    This might be relevant to saga END I use on /profile getInitialProps
