@@ -1,8 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+export default makeStyles(theme => ({
   counter: {
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn: {
+    marginBottom: theme.spacing(2)
+  },
+  info: {
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },

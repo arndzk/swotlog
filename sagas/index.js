@@ -20,15 +20,16 @@ import {
 	CLASSES_FETCHED,
 } from 'actions';
 
-function* updateUserData({ data }) { // TODO: those data have a meaning only to backend. I should try normalize them for me
-	
+function* updateUserData({ data }) {
 	try {
 		const done = yield call(api.doFetch, { data, route: '/users/update' });
 
 		if (!done.error) { 
 			yield put({ 
 				type: USER_DETAILS_UPDATED,
-				user: data,
+				user: {
+					...data,
+				},
 				message: 'User details updated successfully!'
 			});
 		} else {
@@ -43,8 +44,8 @@ function* fetchClasses({ token }) {
 	try {
 		const [ 
 			classes,
-			subscribed,
-			passed,
+			hasSubscribed,
+			hasPassed,
 		] = yield all([
 			call(api.doFetch, { token, route: '/classes' }),
 			call(api.doFetch, { token, route: '/users/subscribed' }),
@@ -54,8 +55,8 @@ function* fetchClasses({ token }) {
 		yield put({
 			type: CLASSES_FETCHED,
 			classes,
-			subscribed,
-			passed
+			hasSubscribed,
+			hasPassed
 		})
 	} catch (error) {
 		yield put({ type: ERROR_MESSAGE, message: error });

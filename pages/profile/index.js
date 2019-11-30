@@ -22,8 +22,8 @@ const Profile = ({
     firstName, 
     lastName, 
     email, 
-    subscribed,
-    passed
+    hasSubscribed,
+    hasPassed
   }, 
   classes: subjects,
  }) => {
@@ -70,9 +70,9 @@ const Profile = ({
         {
           subjects && 
             <CheckList 
-              id="subscribed" 
+              id="Subscribed" 
               list={subjects} 
-              toCheck={subscribed} />
+              toCheck={hasSubscribed} />
         }
       </TabPanel>
       
@@ -81,9 +81,9 @@ const Profile = ({
         {
           subjects && 
             <CheckList 
-              id="passed" 
+              id="Passed" 
               list={subjects} 
-              toCheck={passed} />
+              toCheck={hasPassed} />
         }
       </TabPanel>
     </Grid>
@@ -93,7 +93,7 @@ const Profile = ({
 Profile.getInitialProps = async ctx => {
   const { token } = parseCookies(ctx); 
 
-  if (!ctx.store.getState().classes.passed) {
+  if (!ctx.store.getState().classes.length) {
     await ctx.store.dispatch(fetchClasses(token));
 
     if (ctx.store.sagaTask && !ctx.isServer) {
