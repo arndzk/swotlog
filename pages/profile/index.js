@@ -100,10 +100,10 @@ Profile.getInitialProps = async ctx => {
   if (!ctx.store.getState().classes.length) {
     await ctx.store.dispatch(fetchClasses(token));
 
-    if (ctx.store.sagaTask && !ctx.isServer) {
-      ctx.store.dispatch(END);
-      await ctx.store.sagaTask.toPromise();
-    }
+    // if (ctx.store.sagaTask && !ctx.isServer) {
+    //   ctx.store.dispatch(END);
+    //   await ctx.store.sagaTask.toPromise();
+    // }
   }
   
   return {}; // hmmmm..
