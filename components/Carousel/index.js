@@ -25,7 +25,7 @@ export default function AlignItemsList() {
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis ó Takis</ListItemText>
+        <ListItemText className={classes.userName}>Takis óTakis</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
