@@ -2,7 +2,7 @@ import { ERROR_MESSAGE,
 	SUCCESS_MESSAGE, CLEAR_MESSAGE, 
 	LOADING, AUTH_RESPONSE, AUTH_REQUEST, 
 	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED,
-	SIGN_UP_SUCCESS, POST_DONE } from '../actions';
+	SIGN_UP_SUCCESS, DO_POST, DO_COMMENT, POST_DONE, COMMENT_DONE } from '../actions';
 
 export const loadingReducer = (state = false, action) => {
 	const { loading, type } = action;
@@ -11,6 +11,8 @@ export const loadingReducer = (state = false, action) => {
 		case ERROR_MESSAGE:
 		case USER_DETAILS_UPDATED:
 		case AUTH_RESPONSE:
+		case COMMENT_DONE:
+		case POST_DONE:
 			return false;
 			
 		case LOADING:
@@ -18,6 +20,8 @@ export const loadingReducer = (state = false, action) => {
 			
     case AUTH_REQUEST:
 		case UPDATE_USER_DETAILS:
+		case DO_POST:
+		case DO_COMMENT:
 			return true;
 			
 		default:
@@ -45,6 +49,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 		case SIGN_UP_SUCCESS:
 		case USER_DETAILS_UPDATED:
 		case SUCCESS_MESSAGE:
+		case COMMENT_DONE:
 		case POST_DONE:
 			return {
 				...state,

@@ -1,7 +1,8 @@
-import { POSTS_FETCHED, CLASSES_FETCHED, POST_DONE } from '../actions';
+import produce from "immer"
+import { POSTS_FETCHED, CLASSES_FETCHED, POST_DONE, COMMENT_DONE } from '../actions';
 
 export const postsReducer = (state = [], action) => {
-	const { posts, post, type } = action;
+	const { posts, post, type, comment } = action;
 	
 	switch (type) {
 		case POSTS_FETCHED:
@@ -11,6 +12,15 @@ export const postsReducer = (state = [], action) => {
 			newPosts.unshift(post);
 
 			return newPosts;
+		case COMMENT_DONE:
+			const { postId, ...newComment } = comment;
+			return produce(state, newState => {
+				const postToChange = newState.find(post => post.id === postId);
+				if (!postToChange.comments)
+					postToChange.comments = [];
+
+				postToChange.comments.push(newComment);
+			});
 		default:
 			return state;
 	}

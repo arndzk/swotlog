@@ -1,4 +1,5 @@
-import { FETCH_POSTS, FETCH_CLASSES, DO_POST } from '.';
+import { FETCH_POSTS, FETCH_CLASSES, 
+  DO_POST, DO_COMMENT } from '.';
 
 export const fetchClasses = token => ({ 
   type: FETCH_CLASSES, 
@@ -15,3 +16,9 @@ export const doPost = (content, classId) => ({
   content,
   classId
 });
+
+export const doComment = (content, id) => ({
+  type: DO_COMMENT,
+  content,
+  id
+})

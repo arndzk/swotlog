@@ -12,6 +12,8 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const POSTS_FETCHED = 'POSTS_FETCHED';
 export const DO_POST = 'DO_POST';
 export const POST_DONE = 'POST_DONE';
+export const DO_COMMENT = 'DO_COMMENT';
+export const COMMENT_DONE = 'COMMENT_DONE';
 
 export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS';
 export const USER_DETAILS_UPDATED = 'USER_DETAILS_UPDATED';

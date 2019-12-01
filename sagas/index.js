@@ -22,6 +22,8 @@ import {
 	POSTS_FETCHED,
 	DO_POST,
 	POST_DONE,
+	DO_COMMENT,
+	COMMENT_DONE,
 } from 'actions';
 
 // api.doFetch always expects all data under data:
@@ -65,6 +67,29 @@ function* doPost({ content, classId }) {
 				author: { id, firstName, lastName, email }
 			}
 		});
+	}
+}
+
+function* doComment({ content, id }) {
+	const comment = yield call(api.doFetch, { data: { content, id }, route: '/comments/create' })
+
+	if (comment.message) {
+		const { user: { id: userId, firstName, lastName }} = yield select();
+
+		yield put({
+			type: COMMENT_DONE,
+			message: comment.message,
+			comment: {
+				postId: id,
+				id: comment.data.id,
+				content,
+				author: {
+					id: userId,
+					firstName,
+					lastName
+				}
+			}
+		})
 	}
 }
 
@@ -156,6 +181,7 @@ function* rootSaga() {
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
 	yield takeLatest(FETCH_POSTS, fetchPosts);
 	yield takeLatest(DO_POST, doPost);
+	yield takeLatest(DO_COMMENT, doComment);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);

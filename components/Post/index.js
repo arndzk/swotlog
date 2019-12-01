@@ -1,24 +1,23 @@
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Badge from '@material-ui/core/Badge';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import CommentIcon from '@material-ui/icons/Comment';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import GroupIcon from '@material-ui/icons/Group';
+import { doComment } from 'actions/core';
 
 import useStyles from './styles';
 
-const Post = ({ post }) => {
+const Post = ({ post, doComment }) => {
   const classes = useStyles();
   const commentEl = React.useRef(null);
   const domain = post.class ? 'class' : 'group'; 
@@ -80,11 +79,11 @@ const Post = ({ post }) => {
           margin="normal"
           variant="outlined"
           onChange={({target: { value }}) => setComment(value)}
-          onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), setComment(''))}
+          onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doComment(comment, post.id), setComment(''))}
           />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   </Card>
 }
 
-export default Post;
+export default connect(null, { doComment })(Post);
