@@ -18,10 +18,10 @@ import GroupIcon from '@material-ui/icons/Group';
 
 import useStyles from './styles';
 
-const Post = () => {
+const Post = ({ post }) => {
   const classes = useStyles();
   const commentEl = React.useRef(null);
-  const domain = 'class'; // api will return either class or group
+  const domain = post.class ? 'class' : 'group'; 
   const [expanded, setExpanded] = React.useState(false);
   const [comment, setComment] = React.useState('');
 
@@ -42,51 +42,31 @@ const Post = () => {
   return <Card className={classes.card}>
     <ExpansionPanel square expanded={expanded}>
       <ExpansionPanelSummary className={classes.panelSummary}>
-        <CardContent>
+        <CardContent className={classes.content}>
           <Typography className={classes.domain} color="textSecondary" gutterBottom>
-            Artificial Intelligence {icon[domain]}
+            {post.class.name} {icon[domain]}
           </Typography>
           <Typography className={classes.userInfo} component="b">
-            <AccountCircleIcon className={classes.avatar} /> Takis Takopoulopoulakopoulos
+            <AccountCircleIcon className={classes.avatar} /> {post.author.firstName} {post.author.lastName}
           </Typography>
           <Typography className={classes.content} variant="body2" component="p">
-            Anyone able to solve homework 2.3? I really need some help.
+            {post.content}
           </Typography>
         </CardContent>
-        <CardActions>
-          <ButtonGroup fullWidth>
-            <Button startIcon={
-              <Badge 
-                badgeContent={10} 
-                color="secondary"
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left'
-                }}
-                className={classes.badgeCustom}
-                >
-                <ThumbUpIcon color="primary" />
-              </Badge>
-            }>Like</Button>
+        <CardActions className={classes.cardActions}>
             <Button startIcon={<CommentIcon color="primary" />} onClick={() => handleCommentClick()}>Comment</Button>
-          </ButtonGroup>
         </CardActions>
-        <Paper className={classes.comment}>
-            <Typography className={classes.userInfo}>
-              <AccountCircleIcon className={classes.avatar} /> Takis Takopoulopoulakopoulos
-            </Typography>
-            <Typography component="p">
-              nonsense comment :D 
-            </Typography>
-        </Paper>
-        <Paper className={classes.comment}>
-            <Typography className={classes.userInfo}>
-              <AccountCircleIcon className={classes.avatar} /> Takis Takopoulopoulakopoulos
-            </Typography>
-            <Typography component="p">
-              nonsense kind of big comment to test that nothing is broken. I'm Takis please talk to me :D 
-            </Typography>
-        </Paper>
+        {
+          post.comments &&
+            post.comments.map(comment => <Paper key={`${post.id}_${comment.id}`} className={classes.comment}>
+              <Typography className={classes.userInfo}>
+                <AccountCircleIcon className={classes.avatar} />{comment.author.firstName} {comment.author.lastName}
+              </Typography>
+              <Typography component="p">
+                {comment.content}
+              </Typography>
+          </Paper>)
+        }
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <TextField

@@ -16,7 +16,9 @@ export default makeStyles(theme => ({
       backgroundColor: '#fff',
     },
     cursor: 'auto!important',
-    userSelect: 'auto'
+    userSelect: 'auto',
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1)
   },
   domain: {
     fontSize: 14,
@@ -35,7 +37,8 @@ export default makeStyles(theme => ({
     fontWeight: 500
   },
   content: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(0.5),
+    padding: 8
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -58,5 +61,9 @@ export default makeStyles(theme => ({
     "& > p": {
       fontSize: '.9rem'
     }
+  },
+  cardActions: {
+    justifyContent: 'flex-end',
+    padding: 0
   }
 }));
