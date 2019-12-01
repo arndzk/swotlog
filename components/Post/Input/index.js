@@ -25,7 +25,7 @@ const PostInput = ({ courses, doPost }) => {
   return <Paper className={classes.box}>
     <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-        Select Course related to Post
+        Courses
       </InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"
@@ -44,7 +44,7 @@ const PostInput = ({ courses, doPost }) => {
     </FormControl>
     <TextField
       id="outlined-multiline-static"
-      label={`Create new post${!!course ? ` for ${courses.find(c => c.id === course).name}` : ''}`}
+      label={`${!!course ? `Post for ${courses.find(c => c.id === course).name}` : 'Select a course first'}`}
       value={content}
       inputRef={inputEl}
       multiline

@@ -32,3 +32,6 @@ Error handling:
 Bugs:
   ☐ on profile navigation the next api call want work
     This might be relevant to saga END I use on /profile getInitialProps
+  ☐ When edit profile general, posts + comments and other name references ARE NOT renewed (page reload is needed)
+    Easy fix -> empty all arrays with reference in order for getInitialProps to fetch them again
+    The right thing -> Use the user object on every name reference around the app in order to always be aligned with changes
