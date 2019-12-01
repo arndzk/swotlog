@@ -16,7 +16,6 @@ export default ({ asPath }) => {
     onChange={(_, newValue) => Router.push(newValue)}
     showLabels>
     <BottomNavigationAction label="Feed" value="/" icon={<FeedIcon />} />
-    <BottomNavigationAction label="Classes" value="/classes" icon={<BookIcon />} />
     <BottomNavigationAction label="Groups" value="/groups" icon={<GroupIcon />} />
   </BottomNavigation>
 }
