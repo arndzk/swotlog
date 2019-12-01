@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Post from 'components/Post';
+import PostInput from 'components/Post/Input';
+import Carousel from 'components/Carousel';
 
 import useStyles from './styles';
 
@@ -11,7 +13,11 @@ const Feed = ({ posts }) => {
   return <Container className={classes.feed} maxWidth="md">
     {
       posts.length 
-        ? posts.map(post => <Post />)
+        ? <>
+          <PostInput />
+          <Carousel />
+          {posts.map(post => <Post />)}
+        </>
         : <Typography variant="h2" component="h1">No posts yet</Typography>
     }
   </Container>
