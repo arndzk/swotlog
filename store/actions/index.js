@@ -10,10 +10,15 @@ export const FETCH_CLASSES = 'FETCH_CLASSES';
 export const CLASSES_FETCHED = 'CLASSES_FETCHED';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const POSTS_FETCHED = 'POSTS_FETCHED';
+export const FETCH_GROUPS = 'FETCH_GROUPS';
+export const GROUPS_FETCHED = 'GROUPS_FETCHED';
+
 export const DO_POST = 'DO_POST';
 export const POST_DONE = 'POST_DONE';
 export const DO_COMMENT = 'DO_COMMENT';
 export const COMMENT_DONE = 'COMMENT_DONE';
+export const DO_GROUP = 'DO_GROUP';
+export const GROUP_DONE = 'GROUP_DONE';
 
 export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS';
 export const USER_DETAILS_UPDATED = 'USER_DETAILS_UPDATED';

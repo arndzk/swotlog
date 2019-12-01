@@ -24,6 +24,10 @@ import {
 	POST_DONE,
 	DO_COMMENT,
 	COMMENT_DONE,
+	DO_GROUP,
+	GROUP_DONE,
+	FETCH_GROUPS,
+	GROUPS_FETCHED
 } from 'actions';
 
 // api.doFetch always expects all data under data:
@@ -41,6 +45,29 @@ function* updateUserData({ data, dataToStore }) {
 		},
 		message: 'User details updated successfully!'
 	});
+}
+
+function* doGroup({ title }) {
+	const group = yield call(api.doFetch, { data: { title }, route: '/groups/create' })
+
+	if (group.message) {
+		const { user: { id, firstName, lastName, email } } = yield select();
+
+		yield put({
+			type: GROUP_DONE,
+			message: group.message,
+			group:{
+				title,
+				id: group.data.id,
+				creator: {
+					id,
+					firstName,
+					lastName,
+					email
+				}
+			}
+		})
+	}
 }
 
 function* doPost({ content, classId }) {
@@ -89,6 +116,18 @@ function* doComment({ content, id }) {
 					lastName
 				}
 			}
+		})
+	}
+}
+
+function* fetchGroups({ token }) {
+	const groups = yield call(api.doFetch, { token, route: '/groups' });
+	console.log(groups);
+	
+	if (!groups.error) {
+		yield put({
+			type: GROUPS_FETCHED,
+			groups,
 		})
 	}
 }
@@ -180,8 +219,12 @@ function* rootSaga() {
 	// CORE FETCH
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
 	yield takeLatest(FETCH_POSTS, fetchPosts);
+	yield takeLatest(FETCH_GROUPS, fetchGroups);
+
+	// CORE DO
 	yield takeLatest(DO_POST, doPost);
 	yield takeLatest(DO_COMMENT, doComment);
+	yield takeLatest(DO_GROUP, doGroup);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
