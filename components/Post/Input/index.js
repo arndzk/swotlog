@@ -13,6 +13,7 @@ import useStyles from './styles.js';
 const PostInput = ({ courses, doPost }) => {
   const classes = useStyles();
   const inputLabel = React.useRef(null);
+  const inputEl = React.useRef(null);
   const [course, setCourse] = React.useState('');
   const [labelWidth, setLabelWidth] = React.useState(0);
   const [content, setPost] = React.useState('');
@@ -24,13 +25,13 @@ const PostInput = ({ courses, doPost }) => {
   return <Paper className={classes.box}>
     <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-        Courses
+        Select Course related to Post
       </InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"
         id="demo-simple-select-outlined"
         value={course}
-        onChange={ev => setCourse(ev.target.value)}
+        onChange={ev => (setCourse(ev.target.value), setTimeout(() => inputEl.current.focus(), 300))}
         labelWidth={labelWidth}
       >
         <MenuItem value={0}>
@@ -45,13 +46,14 @@ const PostInput = ({ courses, doPost }) => {
       id="outlined-multiline-static"
       label={`Create new post${!!course ? ` for ${courses.find(c => c.id === course).name}` : ''}`}
       value={content}
+      inputRef={inputEl}
       multiline
       rows="4"
       className={classes.textField}
       margin="normal"
       disabled={!course}
       onChange={({target: { value }}) => setPost(value)}
-      onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doPost(content, course), setPost(''))}
+      onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doPost(content, course), setPost(''), setCourse(''))}
       />
   </Paper>
 }
