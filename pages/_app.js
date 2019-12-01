@@ -17,6 +17,7 @@ import { PAGE_TITLES } from 'constants/misc';
 import { setLoading } from 'actions/misc';
 import configureStore from '../store';
 import { fetchUserInfo } from 'actions/user';
+import { fetchPosts } from 'actions/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { redirectIfNecessary } from 'utils/helpers/pathManager'
 import theme from 'utils/theme';
@@ -52,7 +53,7 @@ class App extends NextApp {
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Preloader barHeight='3px' barWidth='100%' bgColor='#fff' barColor='#e6e600' />
+            <Preloader barHeight='3px' barWidth='100%' bgColor='#fff' barColor='#a31545' />
             <Header />
             <Container
               component='main'
@@ -70,18 +71,21 @@ class App extends NextApp {
   }
 }
 
-App.getInitialProps = async (appContext) => {
+App.getInitialProps = async appContext => {
   const { store, isServer } = appContext.ctx;
   const { uid, token } = parseCookies(appContext.ctx);
   const pageProps = await NextApp.getInitialProps(appContext);
+  const isAuthenticated = token && uid || !isServer && uid;
 
   if (!store.getState().user.id 
-    && uid && token)
+    && uid && token) {
       await store.dispatch(fetchUserInfo({ uid, token }));  
+      
+      // will it be done here?
+      await store.dispatch(fetchPosts(token))
+    }
 
-  if (!uid)  await destroyCookie(appContext.ctx, 'token')
-  
-  const isAuthenticated = token && uid || !isServer && uid;
+  if (!uid) await destroyCookie(appContext.ctx, 'token')
   
   redirectIfNecessary(isAuthenticated, appContext.ctx);
 

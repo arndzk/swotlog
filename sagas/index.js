@@ -18,6 +18,8 @@ import {
 	// CORE
 	FETCH_CLASSES,
 	CLASSES_FETCHED,
+	FETCH_POSTS,
+	POSTS_FETCHED
 } from 'actions';
 
 function* updateUserData({ data, dataToStore }) {
@@ -32,6 +34,15 @@ function* updateUserData({ data, dataToStore }) {
 			...dataToStore,
 		},
 		message: 'User details updated successfully!'
+	});
+}
+
+function* fetchPosts({ token }) {
+	const posts = yield call(api.doFetch, { token, route: '/posts' })
+
+	yield put({
+		type: POSTS_FETCHED,
+		posts
 	});
 }
 
@@ -112,6 +123,7 @@ function* rootSaga() {
 	
 	// CORE FETCH
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
+	yield takeLatest(FETCH_POSTS, fetchPosts);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);

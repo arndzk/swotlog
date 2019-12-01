@@ -1,6 +1,6 @@
 import { POSTS_FETCHED, CLASSES_FETCHED } from '../actions';
 
-export const postsReducer = (state = [1], action) => {
+export const postsReducer = (state = [], action) => {
 	const { posts, type } = action;
 
 	switch (type) {
