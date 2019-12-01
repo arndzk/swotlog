@@ -3,7 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SchoolIcon from '@material-ui/icons/School';
 import Link from 'components/Link';
-import Bubble from 'components/Bubble';
+import Bubble from './Bubble';
 
 import useStyles from './styles';
 
