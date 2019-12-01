@@ -25,9 +25,10 @@ export const fetchUserInfo = cookies => ({
   cookies
 });
 
-export const updateUserData = data => ({
+export const updateUserData = (data, dataToStore) => ({
   type: UPDATE_USER_DETAILS,
-  data
+  data,
+  dataToStore
 });
 
 export const logout = () => ({

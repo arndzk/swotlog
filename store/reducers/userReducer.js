@@ -24,29 +24,10 @@ export default (state = initialState, action) => {
 
     case USER_DETAILS_UPDATED:
       const { classes, ...rest } = user;
+     
       return {
         ...state,
         ...rest,
-        ...(classes 
-          && classes.length 
-          && classes.reduce((a, c) => {
-            if (c.hasPassed) {
-              if (!a.hasPassed) 
-                a.hasPassed = [];
-
-              a.hasPassed.push(c)
-            }             
-
-            if (c.hasSubscribed) {
-              if (!a.hasSubscribed) 
-                a.hasSubscribed = [];
-              
-              a.hasSubscribed.push(c);
-            }
-
-            return a;
-          }, {})
-        )
       }
     
     case CLASSES_FETCHED:

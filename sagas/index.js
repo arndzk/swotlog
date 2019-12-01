@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { select, call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
 import * as api from '../api';
 import {
 	// GENERAL
@@ -20,7 +20,7 @@ import {
 	CLASSES_FETCHED,
 } from 'actions';
 
-function* updateUserData({ data }) {
+function* updateUserData({ data, dataToStore }) {
 	const done = yield call(api.doFetch, { data, route: '/users/update' });
 
 	if (done.error) throw done.error;
@@ -29,6 +29,7 @@ function* updateUserData({ data }) {
 		type: USER_DETAILS_UPDATED,
 		user: {
 			...data,
+			...dataToStore,
 		},
 		message: 'User details updated successfully!'
 	});
@@ -104,20 +105,16 @@ function* signUp({ data }) {
 }
 
 function* rootSaga() {
-	try {
-		// USER
-		yield takeLatest(AUTH_REQUEST, requestAuthentication);
-		yield takeLatest(FETCH_USER_INFO, fetchUserInfo);
-		yield takeLatest(SIGN_UP, signUp);
-		
-		// CORE FETCH
-		yield takeLatest(FETCH_CLASSES, fetchClasses);
-		
-		// PUT
-		yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
-	} catch (error) {
-		yield put({ type: ERROR_MESSAGE, message: error });
-	}
+	// USER
+	yield takeLatest(AUTH_REQUEST, requestAuthentication);
+	yield takeLatest(FETCH_USER_INFO, fetchUserInfo);
+	yield takeLatest(SIGN_UP, signUp);
+	
+	// CORE FETCH
+	yield takeLatest(FETCH_CLASSES, fetchClasses);
+	
+	// PUT
+	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
 }
 
 export default rootSaga;

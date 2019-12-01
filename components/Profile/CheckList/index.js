@@ -19,14 +19,20 @@ const CheckList = ({ id, firstName, lastName, list, toCheck, updateUserData }) =
   const [dataToSubmit, setDataToSubmit] = React.useState([]); 
   const submittableLength = dataToSubmit.length;
   
+  React.useEffect(() => setDataToSubmit([]), [toCheck]);
+
   const handleSubmit = ev => {
     ev.preventDefault();
 
     updateUserData({
+      // for takis
       firstName,
       lastName,
-      classes: dataToSubmit
-    }) 
+      classes: dataToSubmit,
+    }, {
+      // for store :')
+      [`has${id}`]: checked.map(c => list[c]).map(list => ({ id: list.id, name: list.name }))
+    })
   }
 
   const handleToggle = (indexToChange, idToChange) => () => { 
