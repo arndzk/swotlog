@@ -16,7 +16,8 @@ const Feed = ({ posts }) => {
         ? <>
           <PostInput />
           <Carousel />
-          {posts.map(post => <Post />)}
+          <Typography variant="h6">Posts</Typography>
+          {posts.map(post => <Post key={post.id} post={post} />)}
         </>
         : <Typography variant="h2" component="h1">No posts yet</Typography>
     }

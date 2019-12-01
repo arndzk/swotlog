@@ -17,7 +17,7 @@ import { PAGE_TITLES } from 'constants/misc';
 import { setLoading } from 'actions/misc';
 import configureStore from '../store';
 import { fetchUserInfo } from 'actions/user';
-import { fetchPosts } from 'actions/core';
+import { fetchPosts, fetchClasses } from 'actions/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { redirectIfNecessary } from 'utils/helpers/pathManager'
 import theme from 'utils/theme';
@@ -82,7 +82,12 @@ App.getInitialProps = async appContext => {
       await store.dispatch(fetchUserInfo({ uid, token }));  
       
       // will it be done here?
-      await store.dispatch(fetchPosts(token))
+      if (!store.getState().posts.length)
+        await store.dispatch(fetchPosts(token))
+      
+      if (!store.getState().classes.length) 
+        await store.dispatch(fetchClasses(token));
+
     }
 
   if (!uid) await destroyCookie(appContext.ctx, 'token')

@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { select, call, put, takeLatest, all } from 'redux-saga/effects';
 import * as api from '../api';
 import {
 	// GENERAL
@@ -19,8 +19,12 @@ import {
 	FETCH_CLASSES,
 	CLASSES_FETCHED,
 	FETCH_POSTS,
-	POSTS_FETCHED
+	POSTS_FETCHED,
+	DO_POST,
+	POST_DONE,
 } from 'actions';
+
+// api.doFetch always expects all data under data:
 
 function* updateUserData({ data, dataToStore }) {
 	const done = yield call(api.doFetch, { data, route: '/users/update' });
@@ -35,6 +39,33 @@ function* updateUserData({ data, dataToStore }) {
 		},
 		message: 'User details updated successfully!'
 	});
+}
+
+function* doPost({ content, classId }) {
+	
+	const post = yield call(api.doFetch, { data: {
+		content, classId
+	}, route: '/posts/create' });
+	
+	
+	if (post.message) {
+		const { user: { id, firstName, lastName, email }, classes } = yield select();
+		const { id: cid, name } = classes.find(c => c.id === classId);
+
+		yield put({
+			type: POST_DONE,
+			message: post.message,
+			post: {
+				id: post.data.id,
+				content,
+				class: {
+					id: cid,
+					name
+				},
+				author: { id, firstName, lastName, email }
+			}
+		});
+	}
 }
 
 function* fetchPosts({ token }) {
@@ -124,6 +155,7 @@ function* rootSaga() {
 	// CORE FETCH
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
 	yield takeLatest(FETCH_POSTS, fetchPosts);
+	yield takeLatest(DO_POST, doPost);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
