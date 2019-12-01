@@ -27,8 +27,8 @@ export default makeStyles(theme => ({
     fontSize: '1rem',
     backgroundColor: '#3e3e3e',
     color: '#fff',
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(2)
+    paddingTop: theme.spacing(1.5),
+    paddingLeft: theme.spacing(1.5)
   },
   avatar: {
     fontSize: '2em',

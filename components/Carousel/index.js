@@ -18,28 +18,28 @@ export default function AlignItemsList() {
     <List className={classes.root}>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis</ListItemText>
+        <ListItemText className={classes.userName}>Takis Takis</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis</ListItemText>
+        <ListItemText className={classes.userName}>Takis Takopoulopoulo</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis</ListItemText>
+        <ListItemText className={classes.userName}>Michalis Garganourakis</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis</ListItemText>
+        <ListItemText className={classes.userName}>Arnold Iosifis Takopoulos</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
