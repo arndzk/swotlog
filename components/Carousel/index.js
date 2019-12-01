@@ -18,28 +18,35 @@ export default function AlignItemsList() {
     <List className={classes.root}>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis Takis</ListItemText>
+        <ListItemText className={classes.userName}>Ioannis Theodo</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis Takopoulopoulo</ListItemText>
+        <ListItemText className={classes.userName}>Takis ó Takis</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Michalis Garganourakis</ListItemText>
+        <ListItemText className={classes.userName}>Michalis</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Arnold Iosifis Takopoulos</ListItemText>
+        <ListItemText className={classes.userName}>Arnold Iosifis</ListItemText>
+        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
+          Follow
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <AccountCircleIcon className={classes.avatar} /> 
+        <ListItemText className={classes.userName}>Ilai the Greek</ListItemText>
         <Button variant="outlined" size="small" className={classes.button}  color="secondary">
           Follow
         </Button>
