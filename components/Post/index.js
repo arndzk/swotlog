@@ -52,9 +52,9 @@ const Post = ({ data, doComment }) => {
           <Typography className={classes.userInfo} component="b">
             <AccountCircleIcon className={classes.avatar} /> {data.author.firstName} {data.author.lastName}
             {
-              !domain 
+              !domain && data.assignee
                 && <>
-                  <NavigateNextIcon color="disabled" /> Takis
+                  <NavigateNextIcon color="disabled" /> {data.assignee.firstName} {data.assignee.lastName}
                 </>
             }
           </Typography>

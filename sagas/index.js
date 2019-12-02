@@ -55,8 +55,8 @@ function* doTask({ id, content, assigneeId }) {
 	const task = yield call(api.doFetch, { data: { id, content, assigneeId }, route: '/tasks/create'});
 	
 	if (task.message) {
-		const { user: { id: userId, firstName, lastName, email } } = yield select();
-
+		const { user: { id: userId, firstName, lastName, email, followers } } = yield select();
+		const assignee = followers.find(follower => follower.id === assigneeId);
 		yield put({
 			type: TASK_DONE,
 			message: task.message,
@@ -68,7 +68,8 @@ function* doTask({ id, content, assigneeId }) {
 					firstName,
 					lastName,
 					email
-				}
+				},
+				assignee
 			}
 		})
 	}
