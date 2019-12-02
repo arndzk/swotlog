@@ -12,6 +12,8 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const POSTS_FETCHED = 'POSTS_FETCHED';
 export const FETCH_GROUPS = 'FETCH_GROUPS';
 export const GROUPS_FETCHED = 'GROUPS_FETCHED';
+export const FETCH_GROUP_DETAILS = 'FETCH_GROUP_DETAILS';
+export const GROUP_DETAILS_FETCHED = 'GROUP_DETAILS_FETCHED';
 
 export const DO_POST = 'DO_POST';
 export const POST_DONE = 'POST_DONE';

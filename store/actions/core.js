@@ -1,5 +1,6 @@
 import { FETCH_POSTS, FETCH_CLASSES, 
-  DO_POST, DO_COMMENT, DO_GROUP, FETCH_GROUPS } from '.';
+  DO_POST, DO_COMMENT, DO_GROUP, 
+  FETCH_GROUPS, FETCH_GROUP_DETAILS } from '.';
 
 export const fetchClasses = token => ({ 
   type: FETCH_CLASSES, 
@@ -15,6 +16,12 @@ export const fetchGroups = token => ({
   type: FETCH_GROUPS,
   token
 })
+
+export const fetchGroupDetails = (token, id) => ({
+  type: FETCH_GROUP_DETAILS,
+  token,
+  id
+});
 
 export const doPost = (content, classId) => ({
   type: DO_POST,

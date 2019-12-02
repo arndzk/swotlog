@@ -27,8 +27,11 @@ import {
 	DO_GROUP,
 	GROUP_DONE,
 	FETCH_GROUPS,
-	GROUPS_FETCHED
+	GROUPS_FETCHED,
+	FETCH_GROUP_DETAILS,
+	GROUP_DETAILS_FETCHED
 } from 'actions';
+import {  } from '../store/actions';
 
 // api.doFetch always expects all data under data:
 
@@ -120,9 +123,19 @@ function* doComment({ content, id }) {
 	}
 }
 
+function* fetchGroupDetails({ token, id }) {
+	const group = yield call(api.doFetch, { token, route: `/groups/${id}`})
+
+	if (!group.error && group.length) {
+		yield put({
+			type: GROUP_DETAILS_FETCHED,
+			group
+		})
+	}
+}
+
 function* fetchGroups({ token }) {
 	const groups = yield call(api.doFetch, { token, route: '/groups' });
-	console.log(groups);
 	
 	if (!groups.error) {
 		yield put({
@@ -220,6 +233,7 @@ function* rootSaga() {
 	yield takeLatest(FETCH_CLASSES, fetchClasses);
 	yield takeLatest(FETCH_POSTS, fetchPosts);
 	yield takeLatest(FETCH_GROUPS, fetchGroups);
+	yield takeLatest(FETCH_GROUP_DETAILS, fetchGroupDetails);
 
 	// CORE DO
 	yield takeLatest(DO_POST, doPost);

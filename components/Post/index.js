@@ -17,10 +17,10 @@ import { doComment } from 'actions/core';
 
 import useStyles from './styles';
 
-const Post = ({ post, doComment }) => {
+const Post = ({ data, doComment }) => {
   const classes = useStyles();
   const commentEl = React.useRef(null);
-  const domain = post.class ? 'class' : 'group'; 
+  const domain = data.class ? 'class' : 'group'; 
   const [expanded, setExpanded] = React.useState(false);
   const [comment, setComment] = React.useState('');
 
@@ -42,22 +42,25 @@ const Post = ({ post, doComment }) => {
     <ExpansionPanel square expanded={expanded}>
       <ExpansionPanelSummary className={classes.panelSummary}>
         <CardContent className={classes.content}>
-          <Typography className={classes.domain} color="textSecondary" gutterBottom>
-            {post.class.name} {icon[domain]}
-          </Typography>
+          {
+            data.class && 
+            <Typography className={classes.domain} color="textSecondary" gutterBottom>
+              {data.class.name} {icon[domain]}
+            </Typography>
+          }
           <Typography className={classes.userInfo} component="b">
-            <AccountCircleIcon className={classes.avatar} /> {post.author.firstName} {post.author.lastName}
+            <AccountCircleIcon className={classes.avatar} /> {data.author.firstName} {data.author.lastName}
           </Typography>
           <Typography className={classes.content} variant="body2" component="p">
-            {post.content}
+            {data.content}
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
             <Button startIcon={<CommentIcon color="primary" />} onClick={() => handleCommentClick()}>Comment</Button>
         </CardActions>
         {
-          post.comments &&
-            post.comments.map(comment => <Paper key={`${post.id}_${comment.id}`} className={classes.comment}>
+          data.comments &&
+            data.comments.map(comment => <Paper key={`${data.id}_${comment.id}`} className={classes.comment}>
               <Typography className={classes.userInfo}>
                 <AccountCircleIcon className={classes.avatar} />{comment.author.firstName} {comment.author.lastName}
               </Typography>
@@ -79,7 +82,7 @@ const Post = ({ post, doComment }) => {
           margin="normal"
           variant="outlined"
           onChange={({target: { value }}) => setComment(value)}
-          onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doComment(comment, post.id), setComment(''))}
+          onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doComment(comment, data.id), setComment(''))}
           />
       </ExpansionPanelDetails>
     </ExpansionPanel>

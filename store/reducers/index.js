@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import userReducer from './userReducer';
 import { loadingReducer, notificationReducer } from './utilsReducer';
-import { postsReducer, classesReducer, groupsReducer } from './coreReducer';
+import { postsReducer, classesReducer, 
+  groupsReducer, currentGroupReducer } from './coreReducer';
 
 export default combineReducers({
   user: userReducer,
@@ -12,5 +13,7 @@ export default combineReducers({
   posts: postsReducer,
   classes: classesReducer,
   groups: groupsReducer,  
+
+  currentGroup: currentGroupReducer,
 });
 

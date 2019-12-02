@@ -1,7 +1,7 @@
 import produce from "immer"
 import { POSTS_FETCHED, CLASSES_FETCHED, 
 	POST_DONE, COMMENT_DONE, 
-	GROUP_DONE, GROUPS_FETCHED } from '../actions';
+	GROUP_DONE, GROUPS_FETCHED, GROUP_DETAILS_FETCHED } from '../actions';
 
 export const postsReducer = (state = [], action) => {
 	const { posts, post, type, comment } = action;
@@ -50,6 +50,19 @@ export const groupsReducer = (state = [], action) => {
 		case GROUPS_FETCHED:
 			return state.concat(groups);
 
+		default:
+			return state;
+	}
+}
+
+export const currentGroupReducer = (state = {}, action) => {
+	const { group, type } = action;
+
+	switch (type) {
+		case GROUP_DETAILS_FETCHED:
+			return {
+				...group[0]
+			}
 		default:
 			return state;
 	}
