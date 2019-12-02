@@ -25,7 +25,7 @@ const PostInput = ({ id, users, doTask }) => {
   return <Paper className={classes.box}>
     <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-        User to delegate
+        Follower to delegate
       </InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"
