@@ -1,6 +1,6 @@
 import { FETCH_POSTS, FETCH_CLASSES, 
   DO_POST, DO_COMMENT, DO_GROUP, 
-  FETCH_GROUPS, FETCH_GROUP_DETAILS } from '.';
+  FETCH_GROUPS, FETCH_GROUP_DETAILS, DO_TASK } from '.';
 
 export const fetchClasses = token => ({ 
   type: FETCH_CLASSES, 
@@ -38,4 +38,11 @@ export const doComment = (content, id) => ({
 export const doGroup = title => ({
   type: DO_GROUP,
   title,
+})
+
+export const doTask = (id, content, assigneeId) => ({
+  type: DO_TASK,
+  id,
+  content,
+  assigneeId
 })

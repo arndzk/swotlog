@@ -21,6 +21,8 @@ export const DO_COMMENT = 'DO_COMMENT';
 export const COMMENT_DONE = 'COMMENT_DONE';
 export const DO_GROUP = 'DO_GROUP';
 export const GROUP_DONE = 'GROUP_DONE';
+export const DO_TASK = 'DO_TASK';
+export const TASK_DONE = 'TASK_DONE';
 
 export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS';
 export const USER_DETAILS_UPDATED = 'USER_DETAILS_UPDATED';

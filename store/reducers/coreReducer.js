@@ -1,7 +1,8 @@
 import produce from "immer"
 import { POSTS_FETCHED, CLASSES_FETCHED, 
 	POST_DONE, COMMENT_DONE, 
-	GROUP_DONE, GROUPS_FETCHED, GROUP_DETAILS_FETCHED } from '../actions';
+	GROUP_DONE, GROUPS_FETCHED, 
+	GROUP_DETAILS_FETCHED, TASK_DONE } from '../actions';
 
 export const postsReducer = (state = [], action) => {
 	const { posts, post, type, comment } = action;
@@ -56,13 +57,21 @@ export const groupsReducer = (state = [], action) => {
 }
 
 export const currentGroupReducer = (state = {}, action) => {
-	const { group, type } = action;
+	const { group, task, type } = action;
 
 	switch (type) {
 		case GROUP_DETAILS_FETCHED:
 			return {
 				...group[0]
 			}
+		
+			case TASK_DONE:
+				return produce(state, newState => {
+					if (!newState.tasks)
+						newState.tasks = [];
+
+					newState.tasks.unshift(task);
+				})
 		default:
 			return state;
 	}

@@ -6,11 +6,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { doPost } from 'actions/core';
+import { doTask } from 'actions/core';
 
 import useStyles from './styles.js';
 
-const PostInput = ({ id, users, doPost }) => {
+const PostInput = ({ id, users, doTask }) => {
   const classes = useStyles();
   const [content, setPost] = React.useState('');
   const [user, setUser] = React.useState('');
@@ -53,8 +53,8 @@ const PostInput = ({ id, users, doPost }) => {
       margin="normal"
       disabled={!user}
       onChange={({target: { value }}) => setPost(value)}
-      onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doPost(content, ''), setPost(''), setUser(''))} />
+      onKeyDown={event => event.keyCode === 13 && (event.preventDefault(), doTask(id, content, user), setPost(''), setUser(''))} />
   </Paper>
 }
 
-export default connect(null, { doPost })(PostInput);
+export default connect(null, { doTask })(PostInput);

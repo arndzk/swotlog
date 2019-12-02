@@ -29,9 +29,10 @@ import {
 	FETCH_GROUPS,
 	GROUPS_FETCHED,
 	FETCH_GROUP_DETAILS,
-	GROUP_DETAILS_FETCHED
+	GROUP_DETAILS_FETCHED,
+	DO_TASK,
+	TASK_DONE
 } from 'actions';
-import {  } from '../store/actions';
 
 // api.doFetch always expects all data under data:
 
@@ -48,6 +49,29 @@ function* updateUserData({ data, dataToStore }) {
 		},
 		message: 'User details updated successfully!'
 	});
+}
+
+function* doTask({ id, content, assigneeId }) {
+	const task = yield call(api.doFetch, { data: { id, content, assigneeId }, route: '/tasks/create'});
+	
+	if (task.message) {
+		const { user: { id: userId, firstName, lastName, email } } = yield select();
+
+		yield put({
+			type: TASK_DONE,
+			message: task.message,
+			task: {
+				id: task.data.id,
+				content,
+				author: {
+					id: userId,
+					firstName,
+					lastName,
+					email
+				}
+			}
+		})
+	}
 }
 
 function* doGroup({ title }) {
@@ -239,6 +263,7 @@ function* rootSaga() {
 	yield takeLatest(DO_POST, doPost);
 	yield takeLatest(DO_COMMENT, doComment);
 	yield takeLatest(DO_GROUP, doGroup);
+	yield takeLatest(DO_TASK, doTask);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
