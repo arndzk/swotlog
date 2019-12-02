@@ -1,10 +1,12 @@
 import fetch from 'node-fetch';
 import { serialize } from 'cookie'
 
+import { EXTERNAL_API_PORT } from 'constants/misc';
+
 const MAX_AGE = 365 * 24 * 60 * 60 * 1000;
 
 export default async (req, res) => {
-  const response = await fetch(`http://192.168.1.106:3000/login`, {
+  const response = await fetch(`http://localhost:${EXTERNAL_API_PORT}/login`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',
@@ -13,8 +15,8 @@ export default async (req, res) => {
       email: req.body.email,
       password: req.body.password
 		}),
-  });  
-  
+  });
+
   const { token, ...user } = await response.json();
 
   if (response.status === 200) {

@@ -3,6 +3,7 @@ export const PAGE_TITLES = {
   'signup': 'Sign Up'
 }
 
+export const EXTERNAL_API_PORT = 3001;
 // routes only guest should access
 export const GUEST_ZONES = ['/signin', '/signup'];
 
