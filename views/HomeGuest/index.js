@@ -32,7 +32,7 @@ export default () => {
             paragraph
           >
             A service designed to unite students. Become a member of our
-            community and make your studies a walk in the park
+            community and make your studies a walk in the park.
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
@@ -46,7 +46,7 @@ export default () => {
               <Grid item>
                 <Link href="/signin">
                   <Button variant="outlined" color="primary">
-                    Sing in
+                    Sign in
                   </Button>
                 </Link>
               </Grid>
