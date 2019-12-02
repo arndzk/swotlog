@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import CommentIcon from '@material-ui/icons/Comment';
@@ -20,7 +21,7 @@ import useStyles from './styles';
 const Post = ({ data, doComment }) => {
   const classes = useStyles();
   const commentEl = React.useRef(null);
-  const domain = data.class ? 'class' : 'group'; 
+  const domain = data.class ? 'class' : null; 
   const [expanded, setExpanded] = React.useState(false);
   const [comment, setComment] = React.useState('');
 
@@ -50,6 +51,12 @@ const Post = ({ data, doComment }) => {
           }
           <Typography className={classes.userInfo} component="b">
             <AccountCircleIcon className={classes.avatar} /> {data.author.firstName} {data.author.lastName}
+            {
+              !domain 
+                && <>
+                  <NavigateNextIcon color="disabled" /> Takis
+                </>
+            }
           </Typography>
           <Typography className={classes.content} variant="body2" component="p">
             {data.content}
