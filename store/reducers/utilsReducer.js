@@ -3,7 +3,8 @@ import { ERROR_MESSAGE,
 	LOADING, AUTH_RESPONSE, AUTH_REQUEST, 
 	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED,
 	SIGN_UP_SUCCESS, DO_POST, DO_COMMENT, POST_DONE, 
-	COMMENT_DONE, DO_GROUP, GROUP_DONE } from '../actions';
+	COMMENT_DONE, DO_GROUP, GROUP_DONE, 
+	DO_TASK, TASK_DONE } from '../actions';
 
 export const loadingReducer = (state = false, action) => {
 	const { loading, type } = action;
@@ -15,6 +16,7 @@ export const loadingReducer = (state = false, action) => {
 		case COMMENT_DONE:
 		case POST_DONE:
 		case GROUP_DONE:
+		case TASK_DONE:
 			return false;
 			
 		case LOADING:
@@ -25,6 +27,7 @@ export const loadingReducer = (state = false, action) => {
 		case DO_POST:
 		case DO_COMMENT:
 		case DO_GROUP:
+		case DO_TASK:
 			return true;
 			
 		default:
@@ -55,6 +58,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 		case COMMENT_DONE:
 		case POST_DONE:
 		case GROUP_DONE:
+		case TASK_DONE:
 			return {
 				...state,
 				message,
