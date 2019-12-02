@@ -4,7 +4,7 @@ import { ERROR_MESSAGE,
 	UPDATE_USER_DETAILS, USER_DETAILS_UPDATED,
 	SIGN_UP_SUCCESS, DO_POST, DO_COMMENT, POST_DONE, 
 	COMMENT_DONE, DO_GROUP, GROUP_DONE, 
-	DO_TASK, TASK_DONE } from '../actions';
+	DO_TASK, TASK_DONE, DO_FOLLOW, FOLLOWED_SUCCESSFULLY } from '../actions';
 
 export const loadingReducer = (state = false, action) => {
 	const { loading, type } = action;
@@ -17,6 +17,7 @@ export const loadingReducer = (state = false, action) => {
 		case POST_DONE:
 		case GROUP_DONE:
 		case TASK_DONE:
+		case FOLLOWED_SUCCESSFULLY:
 			return false;
 			
 		case LOADING:
@@ -28,6 +29,7 @@ export const loadingReducer = (state = false, action) => {
 		case DO_COMMENT:
 		case DO_GROUP:
 		case DO_TASK:
+		case DO_FOLLOW:
 			return true;
 			
 		default:
@@ -59,6 +61,7 @@ export const notificationReducer = (state = initialNotificationReducer, action) 
 		case POST_DONE:
 		case GROUP_DONE:
 		case TASK_DONE:
+		case FOLLOWED_SUCCESSFULLY:
 			return {
 				...state,
 				message,

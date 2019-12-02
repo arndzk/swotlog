@@ -1,7 +1,8 @@
+import produce from "immer"
 import { AUTH_RESPONSE, LOGOUT,
   USER_DETAILS_UPDATED,
   USER_INFO_FETCHED,
-  CLASSES_FETCHED } from '../actions';
+  CLASSES_FETCHED, FOLLOWED_SUCCESSFULLY } from '../actions';
 import { USER_COOKIE } from 'constants/misc';
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { hasSubscribed, hasPassed, user, type } = action;
+  const { hasSubscribed, hasPassed, user, followed, type } = action;
 
   switch(type) {
     case AUTH_RESPONSE:
@@ -36,6 +37,15 @@ export default (state = initialState, action) => {
         hasSubscribed,
         hasPassed
       }
+
+    case FOLLOWED_SUCCESSFULLY:
+      
+      return produce(state, newState => {
+        if (!newState.followers || !newState.followers.length)
+          newState.followers = [];
+          
+        newState.followers.push(followed)
+      })
       
     case LOGOUT:
       document.cookie = `${USER_COOKIE}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`; // hacks applied 

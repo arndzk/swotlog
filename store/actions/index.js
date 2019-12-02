@@ -23,9 +23,14 @@ export const DO_GROUP = 'DO_GROUP';
 export const GROUP_DONE = 'GROUP_DONE';
 export const DO_TASK = 'DO_TASK';
 export const TASK_DONE = 'TASK_DONE';
+export const DO_FOLLOW = 'DO_FOLLOW';
+export const FOLLOWED_SUCCESSFULLY = 'FOLLOWED_SUCCESSFULLY';
 
 export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS';
 export const USER_DETAILS_UPDATED = 'USER_DETAILS_UPDATED';
+
+export const FETCH_RELATED = 'FETCH_RELATED';
+export const RELATED_FETCHED = 'RELATED_FETCHED';
 
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 export const SUCCESS_MESSAGE = 'SUCCESS_MESSAGE';

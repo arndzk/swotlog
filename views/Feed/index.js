@@ -5,9 +5,10 @@ import Post from 'components/Post';
 import PostInput from 'components/Post/Input';
 import Carousel from 'components/Carousel';
 
+import { doFollow } from 'actions/core';
 import useStyles from './styles';
 
-const Feed = ({ posts }) => {
+const Feed = ({ posts, related, doFollow }) => {
   const classes = useStyles(posts.length);
 
   return <Container className={classes.feed} maxWidth="md">
@@ -15,7 +16,7 @@ const Feed = ({ posts }) => {
       posts.length 
         ? <>
           <PostInput />
-          <Carousel />
+          <Carousel related={related} doFollow={doFollow} />
           <Typography variant="h6">Posts</Typography>
           {posts.map(post => <Post key={post.id} data={post} />)}
         </>
@@ -24,4 +25,4 @@ const Feed = ({ posts }) => {
   </Container>
 }
 
-export default connect(({ posts }) => ({ posts }))(Feed);
+export default connect(({ posts, related }) => ({ posts, related }), { doFollow })(Feed);

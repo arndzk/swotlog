@@ -17,7 +17,7 @@ import { PAGE_TITLES } from 'constants/misc';
 import { setLoading } from 'actions/misc';
 import configureStore from '../store';
 import { fetchUserInfo } from 'actions/user';
-import { fetchPosts, fetchClasses, fetchGroups } from 'actions/core';
+import { fetchPosts, fetchClasses, fetchGroups, fetchRelated } from 'actions/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { redirectIfNecessary } from 'utils/helpers/pathManager'
 import theme from 'utils/theme';
@@ -90,6 +90,9 @@ App.getInitialProps = async appContext => {
 
       if (!store.getState().groups.length)
         await store.dispatch(fetchGroups(token));
+
+      if (!store.getState().related.length) 
+        await store.dispatch(fetchRelated(token));
     }
 
   if (!uid) await destroyCookie(appContext.ctx, 'token')

@@ -2,7 +2,9 @@ import produce from "immer"
 import { POSTS_FETCHED, CLASSES_FETCHED, 
 	POST_DONE, COMMENT_DONE, 
 	GROUP_DONE, GROUPS_FETCHED, 
-	GROUP_DETAILS_FETCHED, TASK_DONE } from '../actions';
+	GROUP_DETAILS_FETCHED, TASK_DONE, RELATED_FETCHED,
+	FOLLOWED_SUCCESSFULLY, 
+	LOGOUT } from '../actions';
 
 export const postsReducer = (state = [], action) => {
 	const { posts, post, type, comment } = action;
@@ -65,13 +67,33 @@ export const currentGroupReducer = (state = {}, action) => {
 				...group[0]
 			}
 		
-			case TASK_DONE:
-				return produce(state, newState => {
-					if (!newState.tasks)
-						newState.tasks = [];
+		case TASK_DONE:
+			return produce(state, newState => {
+				if (!newState.tasks)
+					newState.tasks = [];
 
-					newState.tasks.unshift(task);
-				})
+				newState.tasks.unshift(task);
+			})
+		case LOGOUT:
+			return {};
+			
+		default:
+			return state;
+	}
+}
+
+export const relatedReducer = (state = [], action) => {
+	const { related, type, followingId } = action;
+
+	switch(type) {
+		case RELATED_FETCHED:
+			return state.concat(related);
+		
+		case FOLLOWED_SUCCESSFULLY:
+			return state.filter(rel => rel.id !== followingId);
+
+		case LOGOUT:
+			return [];
 		default:
 			return state;
 	}

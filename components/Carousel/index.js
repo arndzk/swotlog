@@ -8,56 +8,30 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import useStyles from './styles';
 
-export default function AlignItemsList() {
+export default ({ related, doFollow }) => {
   const classes = useStyles();
+
+  if (!related.length) return null;
 
   return <Paper className={classes.paper}>
     <Typography variant="h6" className={classes.title}>
       Follow Suggestions
     </Typography>
     <List className={classes.root}>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Ioannis Theodo</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis óTakis</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Michalis</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Arnold Iosifis</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Ilai the Greek</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountCircleIcon className={classes.avatar} /> 
-        <ListItemText className={classes.userName}>Takis</ListItemText>
-        <Button variant="outlined" size="small" className={classes.button}  color="secondary">
-          Follow
-        </Button>
-      </ListItem>
+      {
+        related.map(rel => <ListItem key={rel.id} className={classes.listItem}>
+          <AccountCircleIcon className={classes.avatar} /> 
+          <ListItemText className={classes.userName}>{rel.firstName} {rel.lastName}</ListItemText>
+          <Button 
+            variant="outlined" 
+            size="small" 
+            className={classes.button}  
+            onClick={() => doFollow(rel.id)}
+            color="secondary">
+            Follow
+          </Button>
+        </ListItem>)
+      }
     </List>
   </Paper>
 }

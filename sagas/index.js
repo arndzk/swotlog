@@ -31,7 +31,11 @@ import {
 	FETCH_GROUP_DETAILS,
 	GROUP_DETAILS_FETCHED,
 	DO_TASK,
-	TASK_DONE
+	TASK_DONE,
+	FETCH_RELATED,
+	RELATED_FETCHED,
+	DO_FOLLOW,
+	FOLLOWED_SUCCESSFULLY
 } from 'actions';
 
 // api.doFetch always expects all data under data:
@@ -49,6 +53,21 @@ function* updateUserData({ data, dataToStore }) {
 		},
 		message: 'User details updated successfully!'
 	});
+}
+
+function* doFollow({ followingId }) {
+	const done = yield call(api.doFetch, { data: { followingId }, route: '/follow/create' });
+	
+	if (done.message) {
+		const { related } = yield select();
+		
+		yield put({
+			type: FOLLOWED_SUCCESSFULLY,
+			message: done.message,
+			followingId,
+			followed: related.find(rel => rel.id === followingId),
+		})
+	}
 }
 
 function* doTask({ id, content, assigneeId }) {
@@ -148,6 +167,18 @@ function* doComment({ content, id }) {
 	}
 }
 
+function* fetchRelated({ token }) {
+	try {
+		const related = yield call(api.doFetch, { token, route: '/related'});
+		if (!related.error) {
+			yield put({
+				type: RELATED_FETCHED,
+				related,
+			})
+		}
+	} catch (e) {}
+}
+
 function* fetchGroupDetails({ token, id }) {
 	const group = yield call(api.doFetch, { token, route: `/groups/${id}`})
 
@@ -213,25 +244,32 @@ function* fetchUserInfo ({ cookies }) {
 }
 
 function* requestAuthentication(action) {
-  const { email, password } = action;
-	const user = yield call(
-		api.doFetch, {
-			internalRoute: '/auth/signin',
-			data: {
-				email,
-				password
-			}
-	});
-
-	if (!user.id) throw "Something went wrong";
-
-	yield put({
-		type: AUTH_RESPONSE,
-		user,
-		message: `Welcome ${user.firstName}!`
-	});
-
-	Router.push('/');
+	const { email, password } = action;
+	try {
+		const user = yield call(
+			api.doFetch, {
+				internalRoute: '/auth/signin',
+				data: {
+					email,
+					password
+				}
+		});
+	
+		if (!user.id) throw "Something went wrong";
+	
+		yield put({
+			type: AUTH_RESPONSE,
+			user,
+			message: `Welcome ${user.firstName}!`
+		});
+	
+		Router.push('/');
+	} catch (e) {
+		yield put({
+			type: ERROR_MESSAGE,
+			message: 'Wrong credentials supplied'
+		})
+	}
 }
 
 function* signUp({ data }) {
@@ -259,12 +297,14 @@ function* rootSaga() {
 	yield takeLatest(FETCH_POSTS, fetchPosts);
 	yield takeLatest(FETCH_GROUPS, fetchGroups);
 	yield takeLatest(FETCH_GROUP_DETAILS, fetchGroupDetails);
+	yield takeLatest(FETCH_RELATED, fetchRelated);
 
 	// CORE DO
 	yield takeLatest(DO_POST, doPost);
 	yield takeLatest(DO_COMMENT, doComment);
 	yield takeLatest(DO_GROUP, doGroup);
 	yield takeLatest(DO_TASK, doTask);
+	yield takeLatest(DO_FOLLOW, doFollow);
 	
 	// PUT
 	yield takeLatest(UPDATE_USER_DETAILS, updateUserData);
