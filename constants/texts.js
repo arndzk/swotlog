@@ -1,14 +1,14 @@
 export const HOME_CARDS = [
   {
-    'heading': 'Heading 1',
-    'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    'heading': 'Join Classes',
+    'content': 'Subscribe to classes from you curriculum and join in on conversations with other students who swot!'
   },
   {
-    'heading': 'Heading 2',
-    'content': 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    'heading': 'Student Social Network',
+    'content': 'Follow other students and remain in touch for all things swot!'
   },
   {
-    'heading': 'Heading 3',
-    'content': 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+    'heading': 'Create Groups',
+    'content': 'Create or join groups to cooperate with you friends on class projects, or when it is time to swot!'
   },
 ]
