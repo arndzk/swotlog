@@ -38,7 +38,7 @@ const PostInput = ({ id, users, doTask }) => {
           <em>None</em>
         </MenuItem>
         {
-          users.map(user => <MenuItem key={user.id} value={user.id}>{user.firstName} {user.lastName}</MenuItem>)
+          users && users.map(user => <MenuItem key={user.id} value={user.id}>{user.firstName} {user.lastName}</MenuItem>)
         }
       </Select>
     </FormControl>
