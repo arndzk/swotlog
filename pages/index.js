@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
+import { parseCookies } from 'nookies'
 import HomeGuest from 'views/HomeGuest';
 import Feed from 'views/Feed';
+
+import { fetchPosts, fetchClasses } from 'actions/core';
 
 const Home = ({ user }) => {
   return <>
@@ -12,15 +15,17 @@ const Home = ({ user }) => {
   </>
 }
 
-// Home.getInitialProps = async (ctx) => {
-//   const { store, isServer } = ctx;
+Home.getInitialProps = async (ctx) => {
+  const { store } = ctx;
+  const { token } = parseCookies(ctx);
 
-//   if (!store.getState().user.id) {
-//     const { uid, token } = parseCookies(ctx);
-//     await store.dispatch(fetchUserInfo({ uid, token }));
-//   }  
+  if (!store.getState().posts.length)
+    await store.dispatch(fetchPosts(token))
+  
+  if (!store.getState().classes.length) 
+    await store.dispatch(fetchClasses(token));
 
-//   return { isServer }
-// }
+  return { }
+}
 
 export default connect(state => ({ user: state.user }))(Home);

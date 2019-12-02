@@ -41,9 +41,8 @@ const Groups = ({ groups }) => {
 Groups.getInitialProps = async ctx => {
   const { token } = parseCookies(ctx);
   
-  if (!ctx.store.getState().groups.length) {
+  if (!ctx.store.getState().groups.length)
     await ctx.store.dispatch(fetchGroups(token));
-  }
 
   return { }
 }
