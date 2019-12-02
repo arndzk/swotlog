@@ -8,12 +8,12 @@ import Input from 'components/Task/Input';
 import { fetchGroupDetails } from 'actions/core';
 import useStyles from './styles'
 
-const Group = ({ group }) => {
+const Group = ({ group, groupId }) => {
   const classes = useStyles();
   
   return <Container className={classes.feed} maxWidth="md">
     <Typography variant="h6">Group: <b>{group.title}</b></Typography>
-    <Input />
+    <Input id={groupId} users={[{ id: 1, firstName: 'Mike', lastName: 'Mii' }]} />
     {group?.tasks?.length 
       ? group.tasks.map(task => <Task key={task.id} data={task} />)
       : <Typography className={classes.noTasks} variant="h5" component="h2">No tasks yet</Typography>}
@@ -25,7 +25,9 @@ Group.getInitialProps = async ctx => {
   
   await ctx.store.dispatch(fetchGroupDetails(token, ctx.query.id));
 
-  return { }
+  return { 
+    groupId: ctx.query.id
+  }
 }
 
 export default connect(state => ({ group: state.currentGroup }))(Group);
