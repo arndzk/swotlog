@@ -1,6 +1,8 @@
 {
   "name": "swotlog",
   "version": "0.0.1",
+  "private": true,
+  "author": "arndzk <arn.dziudzik@gmail.com>",
   "description": "",
   "license": "MIT",
   "dependencies": {
